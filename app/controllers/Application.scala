@@ -11,4 +11,8 @@ object Application extends Controller {
     Ok(hello)
   }
 
+  def api = Action {
+    Ok(Json.obj("hello" -> "Welcome to BruteHack!"))
+  }
+
 }
