@@ -1,4 +1,6 @@
 package models
 
-case class Contest(id: Long, name: String)
+import java.sql.Timestamp
+
+case class Contest(id: Long, createdAt: Timestamp, updatedAt: Timestamp, name: String)
 
