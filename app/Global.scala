@@ -14,6 +14,7 @@ object Global extends GlobalSettings {
     val contests = TableQuery[Contests]
     database withSession { implicit session =>
       val ddl = (contests.ddl)
+      ddl.drop
       ddl.create
     }
   }
