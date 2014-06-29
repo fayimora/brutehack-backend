@@ -7,5 +7,7 @@ case class Contest(id: Long,
                    updatedAt: Timestamp,
                    title: String,
                    author: String,
-                   description: String)
+                   description: String,
+                   startTime: Timestamp,
+                   endTime: Timestamp)
 
