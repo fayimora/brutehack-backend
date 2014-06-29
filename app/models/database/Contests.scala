@@ -1,7 +1,7 @@
 package models.database
 
 import models.Contest
-import scala.slick.driver.PostgresDriver.simple._
+import utils.MyPostgresDriver.simple._
 import java.sql.Timestamp
 
 class Contests(tag: Tag) extends Table[Contest](tag, "CONTESTS") {
@@ -13,7 +13,8 @@ class Contests(tag: Tag) extends Table[Contest](tag, "CONTESTS") {
   def title = column[String]("TITLE", O.NotNull)
   def author = column[String]("AUTHOR", O.NotNull)
   def description = column[String]("DESCRIPTION", O.NotNull, O.DBType("CLOB"))
+  def problems = column[List[Int]]("PROBLEMS")
 
-  def * = (id, createdAt, updatedAt, title, author, description, startTime, endTime) <> (Contest.tupled, Contest.unapply)
+  def * = (id, createdAt, updatedAt, title, author, description, startTime, endTime, problems) <> (Contest.tupled, Contest.unapply)
 }
 

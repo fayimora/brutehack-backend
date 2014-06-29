@@ -9,5 +9,6 @@ case class Contest(id: Long,
                    author: String,
                    description: String,
                    startTime: Timestamp,
-                   endTime: Timestamp)
+                   endTime: Timestamp,
+                   problems: List[Int])
 
