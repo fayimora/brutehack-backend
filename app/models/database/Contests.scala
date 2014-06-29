@@ -12,7 +12,7 @@ class Contests(tag: Tag) extends Table[Contest](tag, "CONTESTS") {
   def endTime = column[Timestamp]("END_TIME", O.NotNull)
   def title = column[String]("TITLE", O.NotNull)
   def author = column[String]("AUTHOR", O.NotNull)
-  def description = column[String]("DESCRIPTION", O.NotNull, O.DBType("CLOB"))
+  def description = column[String]("DESCRIPTION", O.NotNull, O.DBType("TEXT"))
   def problems = column[List[Int]]("PROBLEMS")
 
   def * = (id, createdAt, updatedAt, title, author, description, startTime, endTime, problems) <> (Contest.tupled, Contest.unapply)
