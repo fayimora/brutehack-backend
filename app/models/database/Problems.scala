@@ -11,7 +11,7 @@ class Problems(tag: Tag) extends Table[Problem](tag, "PROBLEMS") {
   def author = column[String]("AUTHOR", O.NotNull)
   def title = column[String]("TITLE", O.NotNull)
   def description = column[String]("DESCRIPTION", O.NotNull, O.DBType("CLOB"))
-  def hint = column[String]("HINT", O.NotNull, O.DBType("CLOB"))
+  def hint = column[String]("HINT", O.DBType("CLOB"))
   def input = column[String]("INPUT", O.NotNull, O.DBType("CLOB"))
   def output = column[String]("OUTPUT", O.NotNull, O.DBType("CLOB"))
 
