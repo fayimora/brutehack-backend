@@ -10,5 +10,5 @@ case class Problem(id: Long,
                    title: String,
                    description: String,
                    hint: String,
-                   input: String,
-                   output: String)
+                   inputs: List[String],
+                   output: List[String])

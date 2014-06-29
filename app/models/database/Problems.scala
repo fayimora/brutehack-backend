@@ -1,7 +1,7 @@
 package models.database
 
 import models.Problem
-import scala.slick.driver.PostgresDriver.simple._
+import utils.MyPostgresDriver.simple._
 import java.sql.Timestamp
 
 class Problems(tag: Tag) extends Table[Problem](tag, "PROBLEMS") {
@@ -12,9 +12,9 @@ class Problems(tag: Tag) extends Table[Problem](tag, "PROBLEMS") {
   def title = column[String]("TITLE", O.NotNull)
   def description = column[String]("DESCRIPTION", O.NotNull, O.DBType("CLOB"))
   def hint = column[String]("HINT", O.DBType("CLOB"))
-  def input = column[String]("INPUT", O.NotNull, O.DBType("CLOB"))
-  def output = column[String]("OUTPUT", O.NotNull, O.DBType("CLOB"))
+  def inputs = column[List[String]]("INPUTS", O.NotNull, O.DBType("CLOB"))
+  def outputs = column[List[String]]("OUTPUTS", O.NotNull, O.DBType("CLOB"))
 
-  def * = (id, createdAt, updatedAt, author, title, description, hint, input, output) <> (Problem.tupled, Problem.unapply)
+  def * = (id, createdAt, updatedAt, author, title, description, hint, inputs, outputs) <> (Problem.tupled, Problem.unapply)
 }
 
