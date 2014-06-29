@@ -9,5 +9,6 @@ case class Problem(id: Long,
                    author: String,
                    title: String,
                    description: String,
+                   hint: String,
                    input: String,
                    output: String)
