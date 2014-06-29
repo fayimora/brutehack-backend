@@ -2,7 +2,6 @@ package models.database
 
 import models.Contest
 import scala.slick.driver.PostgresDriver.simple._
-import scala.slick.lifted.{ProvenShape}
 import java.sql.Timestamp
 
 class Contests(tag: Tag) extends Table[Contest](tag, "CONTESTS") {
