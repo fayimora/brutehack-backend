@@ -18,7 +18,7 @@ object Global extends GlobalSettings {
     val problems = TableQuery[Problems]
 
     database withSession { implicit session =>
-      val ddl = (contests.ddl ++ problems.ddl)
+      val ddl = contests.ddl ++ problems.ddl
       val dbs = Map("CONTESTS" -> contests.ddl, "PROBLEMS" -> problems.ddl)
       dbs foreach { db =>
         if(MTable.getTables(db._1).list.nonEmpty)
