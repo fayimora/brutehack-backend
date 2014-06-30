@@ -12,9 +12,10 @@ class Problems(tag: Tag) extends Table[Problem](tag, "PROBLEMS") {
   def title = column[String]("TITLE", O.NotNull)
   def description = column[String]("DESCRIPTION", O.NotNull, O.DBType("TEXT"))
   def hint = column[String]("HINT", O.DBType("TEXT"))
-  def inputs = column[List[String]]("INPUTS", O.NotNull, O.DBType("TEXT"))
-  def outputs = column[List[String]]("OUTPUTS", O.NotNull, O.DBType("TEXT"))
+  def inputs = column[List[String]]("INPUTS")
+  def outputs = column[List[String]]("OUTPUTS")
 
-  def * = (id, createdAt, updatedAt, author, title, description, hint, inputs, outputs) <> (Problem.tupled, Problem.unapply)
+  def * = (id, createdAt, updatedAt, author, title, description, hint, inputs, outputs) <>
+  ((Problem.apply _).tupled, Problem.unapply)
 }
 
