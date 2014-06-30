@@ -29,4 +29,11 @@ object Contests extends Controller {
     val contests = Contest.all
     Ok(Json.toJson(contests))
   }
+
+  def show(id: Long) = Action {
+    Contest.findByID(id) match {
+      case Some(contest) => Ok(Json.toJson(contest))
+      case _ => NotFound(Json.obj("error" -> "404! No such contest exists"))
+    }
+  }
 }
