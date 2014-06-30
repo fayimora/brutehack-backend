@@ -18,3 +18,17 @@ class Contests(tag: Tag) extends Table[Contest](tag, "CONTESTS") {
   def * = (id, createdAt, updatedAt, title, author, description, startTime, endTime, problems) <> (Contest.tupled, Contest.unapply)
 }
 
+object Contests {
+  import play.api.db.DB
+  import play.api.Play.current
+
+  lazy val database = Database.forDataSource(DB.getDataSource())
+  val contests = TableQuery[Contests]
+
+  def all(): List[Contest] = {
+    database withTransaction { implicit session =>
+      val cs = contests.list
+      cs
+    }
+  }
+}

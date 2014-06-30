@@ -3,14 +3,10 @@ package controllers
 import play.api._
 import play.api.mvc._
 import play.api.libs.json._
-import play.api.db.DB
-import play.api.Play.current
 import models.Contest
-import models.database.Contests
-import utils.MyPostgresDriver.simple._
+import models.database.{Contests => ContestsDB}
 
 object Contests extends Controller {
-  lazy val database = Database.forDataSource(DB.getDataSource())
 
   implicit val contestWrites = new Writes[Contest] {
     def writes(c: Contest) = Json.obj(
@@ -31,10 +27,7 @@ object Contests extends Controller {
   }
 
   def index = Action {
-    database withSession { implicit session =>
-      val contests = TableQuery[Contests]
-      val cs = contests.list//forEach {c => Json.toJson(c)}
-      Ok(Json.toJson(cs))
-    }
+    val contests = ContestsDB.all
+    Ok(Json.toJson(contests))
   }
 }
