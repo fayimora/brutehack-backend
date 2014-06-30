@@ -16,6 +16,7 @@ object Global extends GlobalSettings {
 
     val contests = TableQuery[Contests]
     val problems = TableQuery[Problems]
+
     database withSession { implicit session =>
       val ddl = (contests.ddl ++ problems.ddl)
       val dbs = Map("CONTESTS" -> contests.ddl, "PROBLEMS" -> problems.ddl)
@@ -24,7 +25,6 @@ object Global extends GlobalSettings {
           db._2.drop
       }
       ddl.create
-
 
       val d = new java.util.Date()
       val ts = new Timestamp(d.getTime)
