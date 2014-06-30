@@ -27,7 +27,6 @@ object Global extends GlobalSettings {
 
       val d = new java.util.Date()
       val ts = new Timestamp(d.getTime)
-      // contests += Contest(1, ts, ts, "Contest 101", "Fayi", "This is the description", ts, ts, List(6))
       val contestsInsert = contests ++= Seq(
         Contest(1, ts, ts, "Goodbye 2013", "Fayi", "This is the description", ts, ts, List(1,2,3)),
         Contest(2, ts, ts, "Welcome 2014", "Fayi", "This is the description", ts, ts, List(4,5)),
