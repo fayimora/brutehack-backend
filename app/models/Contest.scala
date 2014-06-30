@@ -5,7 +5,6 @@ import play.api.Play.current
 import utils.MyPostgresDriver.simple._
 import models.database.Contests
 import java.sql.Timestamp
-import play.Logger
 
 case class Contest(id: Long,
                    createdAt: Timestamp,
@@ -24,8 +23,7 @@ object Contest {
 
   def all(): List[Contest] = {
     database withTransaction { implicit session =>
-      val cs = contests.list
-      cs
+      contests.list
     }
   }
 
@@ -33,7 +31,6 @@ object Contest {
     database withTransaction { implicit session =>
       //TODO: Find a more efficient way to do this
       val res = contests.list.filter(_.id == id)
-      // Logger.info(contests.list.mkString("\n"))
       res match {
         case c::Nil => Some(c)
         case _ => None
