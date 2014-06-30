@@ -8,6 +8,7 @@ import play.api.Play.current
 import scala.slick.jdbc.meta.MTable
 import utils.MyPostgresDriver.simple._
 import java.sql.Timestamp
+import play.Logger
 
 object Global extends GlobalSettings {
   override def onStart(app: Application) {
@@ -32,6 +33,8 @@ object Global extends GlobalSettings {
         Contest(2, ts, ts, "Welcome 2014", "Fayi", "This is the description", ts, ts, List(4,5)),
         Contest(3, ts, ts, "Contest 101", "Fayi", "This is the description", ts, ts, List(6))
       )
+
+      Logger.info(s"Inserted $contestsInsert contests")
 
     }
   }
