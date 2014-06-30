@@ -4,7 +4,6 @@ import play.api._
 import play.api.mvc._
 import play.api.libs.json._
 import models.Contest
-import models.database.{Contests => ContestsDB}
 
 object Contests extends Controller {
 
@@ -27,7 +26,7 @@ object Contests extends Controller {
   }
 
   def index = Action {
-    val contests = ContestsDB.all
+    val contests = Contest.all
     Ok(Json.toJson(contests))
   }
 }
