@@ -17,7 +17,6 @@ case class Contest(id: Long,
                    problems: List[Int])
 
 object Contest {
-
   lazy val database = Database.forDataSource(DB.getDataSource())
   val contests = TableQuery[Contests]
 
@@ -29,8 +28,7 @@ object Contest {
 
   def findByID(id: Long): Option[Contest] = {
     database withTransaction { implicit session =>
-      //TODO: Find a more efficient way to do this
-      val res = contests.list.filter(_.id == id)
+      val res = contests.filter(_.id === id).list
       res match {
         case c::Nil => Some(c)
         case _ => None
