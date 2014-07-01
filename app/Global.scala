@@ -33,9 +33,9 @@ object Global extends WithFilters(CORSFilter()) with GlobalSettings {
       var ts = new Timestamp(d.getTime)
 
       val contestsInsert = contests ++= Seq(
-        Contest(1, ts, ts, "Goodbye 2013", "Fayi", "This is the description", ts, ts, List(1,2,3)),
-        Contest(2, ts, ts, "Welcome 2014", "Fayi", "This is the description", ts, ts, List(4,5)),
-        Contest(3, ts, ts, "Contest 101", "Fayi", "This is the description", ts, ts, List(6))
+        Contest(1, ts, ts, "Goodbye 2013", "Fayi", "This is the description", ts, "240mins", List(1,2,3)),
+        Contest(2, ts, ts, "Welcome 2014", "Fayi", "This is the description", ts, "120mins", List(4,5)),
+        Contest(3, ts, ts, "Contest 101", "Fayi", "This is the description", ts, "75mins", List(6))
       )
       Logger.info(s"Inserted $contestsInsert contests")
 

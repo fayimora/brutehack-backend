@@ -13,7 +13,7 @@ case class Contest(id: Long,
                    author: String,
                    description: String,
                    startTime: Timestamp,
-                   endTime: Timestamp,
+                   duration: String,
                    problems: List[Int])
 
 object Contest {
