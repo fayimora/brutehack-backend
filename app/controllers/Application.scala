@@ -6,6 +6,8 @@ import play.api.libs.json._
 
 object Application extends Controller {
 
+  def options(path: String) = Action { Ok("") }
+
   def index = Action {
     val hello = Json.obj("hello" -> "Hello World!")
     Ok(hello)
