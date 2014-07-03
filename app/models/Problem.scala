@@ -22,9 +22,9 @@ object Problem {
   lazy val database = Database.forDataSource(DB.getDataSource())
   val problems = TableQuery[Problems]
 
-  def all(): List[Problem] = {
+  def findByIDs(ids: List[Long]): List[Problem] = {
     database withTransaction { implicit session =>
-      problems.list
+      problems.filter(_.id inSet ids).list
     }
   }
 }
