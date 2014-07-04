@@ -2,7 +2,8 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-OPTIONS        /*path                           controllers.Application.options(path)
+# path for CORS
+OPTIONS        /*path               controllers.Application.options(path)
 
 # Home page
 GET     /                           controllers.Application.index
