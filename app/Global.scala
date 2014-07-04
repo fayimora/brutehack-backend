@@ -22,13 +22,13 @@ object Global extends WithFilters(CORSFilter()) with GlobalSettings {
     val users = TableQuery[Users]
 
     database withSession { implicit session =>
-      val ddl = contests.ddl ++ problems.ddl ++ users.ddl
-      val dbs = Map("CONTESTS" -> contests.ddl, "PROBLEMS" -> problems.ddl, "USERS" -> users.ddl)
-      dbs foreach { db =>
-        if(MTable.getTables(db._1).list.nonEmpty)
-          db._2.drop
-      }
-      ddl.create
+      // val ddl = contests.ddl ++ problems.ddl ++ users.ddl
+      // val dbs = Map("CONTESTS" -> contests.ddl, "PROBLEMS" -> problems.ddl, "USERS" -> users.ddl)
+      // dbs foreach { db =>
+      //   if(MTable.getTables(db._1).list.nonEmpty)
+      //     db._2.drop
+      // }
+      // ddl.create
 
       val d = new java.util.Date()
       var ts = new Timestamp(d.getTime)
