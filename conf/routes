@@ -10,6 +10,7 @@ GET     /api                        controllers.Application.api
 GET     /api/contests               controllers.Contests.index
 GET     /api/contests/:id           controllers.Contests.show(id: Long)
 GET     /api/problems               controllers.Problems.show
+GET     /api/user/:handle           controllers.Users.show(handle: String)
 
 
 # Map static resources from the /public folder to the /assets URL path

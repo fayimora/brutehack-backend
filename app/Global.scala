@@ -19,10 +19,11 @@ object Global extends WithFilters(CORSFilter()) with GlobalSettings {
 
     val contests = TableQuery[Contests]
     val problems = TableQuery[Problems]
+    val users = TableQuery[Users]
 
     database withSession { implicit session =>
-      val ddl = contests.ddl ++ problems.ddl
-      val dbs = Map("CONTESTS" -> contests.ddl, "PROBLEMS" -> problems.ddl)
+      val ddl = contests.ddl ++ problems.ddl ++ users.ddl
+      val dbs = Map("CONTESTS" -> contests.ddl, "PROBLEMS" -> problems.ddl, "USERS" -> users.ddl)
       dbs foreach { db =>
         if(MTable.getTables(db._1).list.nonEmpty)
           db._2.drop
@@ -50,6 +51,13 @@ object Global extends WithFilters(CORSFilter()) with GlobalSettings {
       )
       Logger.info(s"Inserted $problemsInsert problems")
 
+      ts = new Timestamp(d.getTime)
+      val usersInsert = users ++= Seq(
+        User(1, ts, ts, ts, "fayimora", "Fayimora", "Femi-Balogun", "fayi@fayimora.com", 3345, "London, UK", "L"),
+        User(2, ts, ts, ts, "wene", "Wenebunha", "Etitinwo", "wene@wenebunha.com", 2833, "Bradford, UK", "L"),
+        User(3, ts, ts, ts, "aqib", "Aqib", "Mushtaq", "aqib@wasemans.com", 3211, "London, UK", "M")
+      )
+      Logger.info(s"Inserted $usersInsert users")
     }
   }
 }
