@@ -15,6 +15,8 @@ class Contests(tag: Tag) extends Table[Contest](tag, "CONTESTS") {
   def description = column[String]("DESCRIPTION", O.NotNull, O.DBType("TEXT"))
   def problems = column[List[Int]]("PROBLEMS")
 
+  def titleIndex = index("IDX_TITLE_ID", title, unique=true)
+
   def * = (id, createdAt, updatedAt, title, author, description, startTime, duration, problems) <>
   ((Contest.apply _).tupled, Contest.unapply)
 }
