@@ -13,8 +13,7 @@ case class Contest(id: Long,
                    author: String,
                    description: String,
                    startTime: Timestamp,
-                   duration: String,
-                   problems: List[Int])
+                   duration: String)
 
 object Contest {
   lazy val database = Database.forDataSource(DB.getDataSource())

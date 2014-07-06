@@ -16,8 +16,7 @@ object Contests extends Controller {
       "title" -> c.title,
       "description" -> c.description,
       "startTime" -> c.startTime,
-      "duration" -> c.duration,
-      "problems" -> Json.toJson(c.problems)
+      "duration" -> c.duration
       )
   }
 

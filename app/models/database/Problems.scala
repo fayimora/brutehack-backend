@@ -15,7 +15,7 @@ class Problems(tag: Tag) extends Table[Problem](tag, "PROBLEMS") {
   def inputs = column[List[String]]("INPUTS")
   def outputs = column[List[String]]("OUTPUTS")
 
-  def titleIndex = index("IDX_TITLE_ID", title, unique=true)
+  def titleIndex = index("PROBLEM_TITLE", title, unique=true)
 
   def * = (id, createdAt, updatedAt, author, title, description, hint, inputs, outputs) <>
   ((Problem.apply _).tupled, Problem.unapply)

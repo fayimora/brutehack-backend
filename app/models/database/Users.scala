@@ -17,8 +17,8 @@ class Users(tag: Tag) extends Table[User](tag, "USERS") {
   def location = column[String]("LOCATION", O.NotNull)
   def shirtSize = column[String]("SHIRTSIZE", O.NotNull)
 
-  def uniqueHandle = index("IDX_HANDLE_ID", handle, unique=true)
-  def uniqueEmail = index("IDX_EMAIL_ID", email, unique=true)
+  def uniqueHandle = index("USERS_HANDLE", handle, unique=true)
+  def uniqueEmail = index("USERS_EMAIL", email, unique=true)
 
   def * = (id, createdAt, updatedAt, lastVisit, handle, firstName, lastName, email, rating,
     location, shirtSize) <> ((User.apply _).tupled, User.unapply)
