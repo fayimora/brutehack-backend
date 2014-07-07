@@ -3,7 +3,7 @@ package models
 import play.api.db.DB
 import play.api.Play.current
 import utils.MyPostgresDriver.simple._
-import models.database.Problems
+import models.database.{Problems, ContestsProblems}
 import java.sql.Timestamp
 
 case class Problem(id: Long,
@@ -21,6 +21,13 @@ object Problem {
 
   lazy val database = Database.forDataSource(DB.getDataSource())
   val problems = TableQuery[Problems]
+  val contestsProblems = TableQuery[ContestsProblems]
+
+  def getProblemIds(cId: Long): List[Long] = {
+    database withSession {implicit session =>
+      contestsProblems.filter(_.contestId===cId).map(_.problemId).list
+    }
+  }
 
   def findByIDs(ids: List[Long]): List[Problem] = {
     database withTransaction { implicit session =>

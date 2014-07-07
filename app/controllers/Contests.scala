@@ -3,7 +3,7 @@ package controllers
 import play.api._
 import play.api.mvc._
 import play.api.libs.json._
-import models.Contest
+import models.{Contest, Problem}
 
 object Contests extends Controller {
 
@@ -16,12 +16,13 @@ object Contests extends Controller {
       "title" -> c.title,
       "description" -> c.description,
       "startTime" -> c.startTime,
-      "duration" -> c.duration
+      "duration" -> c.duration,
+      "problems" -> Json.toJson(Problem.getProblemIds(c.id))
       )
   }
 
   implicit val contestListWrites = new Writes[List[Contest]] {
-    def writes(c: List[Contest]) = Json.obj("contests" -> Json.toJson((c)))
+    def writes(c: List[Contest]) = Json.obj("contests" -> Json.toJson(c))
   }
 
   def index = Action {
