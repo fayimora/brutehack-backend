@@ -33,7 +33,7 @@ object Contests extends Controller {
   def show(id: Long) = Action {
     Contest.findByID(id) match {
       case Some(contest) => Ok(Json.toJson(contest))
-      case _ => NotFound(Json.obj("error" -> "404! No such contest exists"))
+      case _ => NotFound(Json.obj("error" -> "No such contest exists"))
     }
   }
 }
