@@ -6,15 +6,15 @@ import utils.MyPostgresDriver.simple._
 import models.database.{Problems, ContestsProblems}
 import java.sql.Timestamp
 
-case class Problem(id: Long,
-                   createdAt: Timestamp,
-                   updatedAt: Timestamp,
-                   author: String,
+case class Problem(author: String,
                    title: String,
                    description: String,
                    hint: String,
                    inputs: List[String],
-                   outputs: List[String])
+                   outputs: List[String],
+                   id: Option[Long],
+                   createdAt: Option[Timestamp],
+                   updatedAt: Option[Timestamp])
 
 
 object Problem {

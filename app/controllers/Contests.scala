@@ -9,7 +9,7 @@ object Contests extends Controller {
 
   implicit val contestWrites = new Writes[Contest] {
     def writes(c: Contest) = Json.obj(
-      "id" -> c.id,
+      "id" -> c.id.get,
       "createdAt" -> c.createdAt,
       "updatedAt" -> c.updatedAt,
       "author" -> c.author,
@@ -17,7 +17,7 @@ object Contests extends Controller {
       "description" -> c.description,
       "startTime" -> c.startTime,
       "duration" -> c.duration,
-      "problems" -> Json.toJson(Problem.getProblemIds(c.id))
+      "problems" -> Json.toJson(Problem.getProblemIds(c.id.get))
       )
   }
 

@@ -15,7 +15,7 @@ class Problems(tag: Tag) extends Table[Problem](tag, "PROBLEMS") with Timestampe
 
   def titleIndex = index("PROBLEM_TITLE", title, unique=true)
 
-  def * = (id, createdAt, updatedAt, author, title, description, hint, inputs, outputs) <>
+  def * = (author, title, description, hint, inputs, outputs, id.?, createdAt.?, updatedAt.?) <>
   ((Problem.apply _).tupled, Problem.unapply)
 }
 

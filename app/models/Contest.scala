@@ -6,14 +6,15 @@ import utils.MyPostgresDriver.simple._
 import models.database.Contests
 import java.sql.Timestamp
 
-case class Contest(id: Long,
-                   createdAt: Timestamp,
-                   updatedAt: Timestamp,
-                   title: String,
+case class Contest(title: String,
                    author: String,
                    description: String,
                    startTime: Timestamp,
-                   duration: String)
+                   duration: String,
+                   id: Option[Long] = None,
+                   createdAt: Option[Timestamp] = None,
+                   updatedAt: Option[Timestamp] = None)
+
 
 object Contest {
   lazy val database = Database.forDataSource(DB.getDataSource())
