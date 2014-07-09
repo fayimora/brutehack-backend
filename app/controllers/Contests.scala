@@ -8,7 +8,7 @@ object Contests extends Controller {
 
   implicit val contestWrites = new Writes[Contest] {
     def writes(c: Contest) = Json.obj(
-      "id" -> c.id.get,
+      "id" -> c.id,
       "createdAt" -> c.createdAt,
       "updatedAt" -> c.updatedAt,
       "author" -> c.author,
