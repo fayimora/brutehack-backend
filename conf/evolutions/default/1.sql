@@ -1,23 +1,23 @@
 # --- !Ups
 
-create table "CONTESTS" (
-  "CONTEST_ID" SERIAL NOT NULL PRIMARY KEY,
-  "CREATED_AT" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  "UPDATED_AT" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  "TITLE" VARCHAR(254) NOT NULL UNIQUE,
-  "AUTHOR" VARCHAR(254) NOT NULL,
-  "DESCRIPTION" TEXT NOT NULL,
-  "START_TIME" TIMESTAMP NOT NULL,
-  "DURATION" VARCHAR(254) NOT NULL
+create table contests (
+  "contest_id" serial not null primary key,
+  "created_at" timestamp default current_timestamp,
+  "updated_at" timestamp default current_timestamp,
+  "title" varchar(254) not null unique,
+  "author" varchar(254) not null,
+  "description" text not null,
+  "start_time" timestamp not null,
+  "duration" varchar(254) not null
 );
-create unique index "CONTEST_TITLE_ID" on "CONTESTS" ("TITLE");
+create unique index contest_title_id on contests (title);
 
-insert into "CONTESTS" ("CREATED_AT","UPDATED_AT","TITLE","AUTHOR","DESCRIPTION","START_TIME","DURATION") values ('2014-01-06 08:00:54.177', '2014-07-06 00:24:54.177', 'Goodbye 2013', 'Fayi QLL', 'This is the description', '2014-07-06 00:24:54.177', '75mins');
-insert into "CONTESTS" ("CREATED_AT","UPDATED_AT","TITLE","AUTHOR","DESCRIPTION","START_TIME","DURATION") values ('2014-02-10 08:00:54.177', '2014-07-06 00:24:54.177', 'Welcome 2014', 'Fayi QLL', 'This is the description', '2014-07-06 00:24:54.177', '75mins');
-insert into "CONTESTS" ("CREATED_AT","UPDATED_AT","TITLE","AUTHOR","DESCRIPTION","START_TIME","DURATION") values ('2014-03-03 08:00:54.177', '2014-07-06 00:24:54.177', 'Sprint #101', 'Fayi QLL', 'This is the description', '2014-07-06 00:24:54.177', '60mins');
+insert into contests ("created_at","updated_at","title","author","description","start_time","duration") values ('2014-01-06 08:00:54.177', '2014-07-06 00:24:54.177', 'Goodbye 2013', 'Fayi QLL', 'This is the description', '2014-07-06 00:24:54.177', '75mins');
+insert into contests ("created_at","updated_at","title","author","description","start_time","duration") values ('2014-02-10 08:00:54.177', '2014-07-06 00:24:54.177', 'Welcome 2014', 'Fayi QLL', 'This is the description', '2014-07-06 00:24:54.177', '75mins');
+insert into contests ("created_at","updated_at","title","author","description","start_time","duration") values ('2014-03-03 08:00:54.177', '2014-07-06 00:24:54.177', 'Sprint #101', 'Fayi QLL', 'This is the description', '2014-07-06 00:24:54.177', '60mins');
 
 
 # --- !Downs
 
-drop table if exists "CONTESTS";
+drop table if exists contests;
 

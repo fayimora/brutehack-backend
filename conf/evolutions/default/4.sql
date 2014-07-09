@@ -1,25 +1,25 @@
 # --- !Ups
 
-create table "USERS" (
-  "USER_ID" SERIAL NOT NULL PRIMARY KEY,
-  "CREATED_AT" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  "UPDATED_AT" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  "LAST_VISIT" TIMESTAMP NOT NULL,
-  "HANDLE" VARCHAR(254) NOT NULL UNIQUE,
-  "FIRSTNAME" VARCHAR(254) NOT NULL,
-  "LASTNAME" VARCHAR(254) NOT NULL,
-  "EMAIL" VARCHAR(254) NOT NULL UNIQUE,
-  "RATING" INTEGER NOT NULL,
-  "LOCATION" VARCHAR(254) NOT NULL,
-  "SHIRTSIZE" VARCHAR(254) NOT NULL
+create table users (
+  "user_id" serial not null primary key,
+  "created_at" timestamp default current_timestamp,
+  "updated_at" timestamp default current_timestamp,
+  "last_visit" timestamp not null,
+  "handle" varchar(254) not null unique,
+  "firstname" varchar(254) not null,
+  "lastname" varchar(254) not null,
+  "email" varchar(254) not null unique,
+  "rating" integer not null,
+  "location" varchar(254) not null,
+  "shirtsize" varchar(254) not null
 );
-create unique index "USER_HANDLE" on "USERS" ("HANDLE");
-create unique index "USER_EMAIL" on "USERS" ("EMAIL");
+create unique index user_handle on users (handle);
+create unique index user_email on users (email);
 
 
-insert into "USERS" ("CREATED_AT","UPDATED_AT","LAST_VISIT","HANDLE","FIRSTNAME","LASTNAME","EMAIL","RATING","LOCATION","SHIRTSIZE") values ('2014-01-06 08:00:54.177', '2014-07-06 00:24:54.177', '2014-05-16 18:21:54.177', 'fayimora', 'Fayimora', 'Femi-Balogun', 'fayi@fayimora.com', 3345, 'London, UK', 'L');
+insert into users ("created_at","updated_at","last_visit","handle","firstname","lastname","email","rating","location","shirtsize") values ('2014-01-06 08:00:54.177', '2014-07-06 00:24:54.177', '2014-05-16 18:21:54.177', 'fayimora', 'Fayimora', 'Femi-Balogun', 'fayi@fayimora.com', 3345, 'London, UK', 'L');
 
 
 # --- !Downs
 
-drop table if exists "USERS";
+drop table if exists users;

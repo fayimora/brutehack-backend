@@ -2,13 +2,13 @@ package models.database
 
 import utils.MyPostgresDriver.simple._
 
-class ContestsProblems(tag: Tag) extends Table[(Long, Long, Long)](tag, "CONTESTS_PROBLEMS") {
-  def id = column[Long]("ID", O.PrimaryKey, O.AutoInc)
-  def contestId = column[Long]("CONTEST_ID")
-  def problemId = column[Long]("PROBLEM_ID")
+class ContestsProblems(tag: Tag) extends Table[(Long, Long, Long)](tag, "contests_problems") {
+  def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
+  def contestId = column[Long]("contest_id")
+  def problemId = column[Long]("problem_id")
 
-  def contest = foreignKey("CONTEST_FK", contestId, TableQuery[Contests])(_.id)
-  def problem = foreignKey("PROBLEM_FK", problemId, TableQuery[Problems])(_.id)
+  def contest = foreignKey("contest_fk", contestId, TableQuery[Contests])(_.id)
+  def problem = foreignKey("problem_fk", problemId, TableQuery[Problems])(_.id)
 
   def * = (id, contestId, problemId)
 }
