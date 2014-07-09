@@ -5,8 +5,8 @@ create table contests_problems (
   "contest_id" bigint not null,
   "problem_id" bigint not null
 );
-alter table contests_problems add constraint problem_fk foreign key(problem_id) references problems(problem_id) on update no action on delete no action;
-alter table contests_problems add constraint contest_fk foreign key(contest_id) references contests(contest_id) on update no action on delete no action;
+alter table contests_problems add constraint problem_fk foreign key(problem_id) references problems(id) on update no action on delete no action;
+alter table contests_problems add constraint contest_fk foreign key(contest_id) references contests(id) on update no action on delete no action;
 
 insert into contests_problems (contest_id, problem_id) values (1, 1);
 insert into contests_problems (contest_id, problem_id) values (1, 2);

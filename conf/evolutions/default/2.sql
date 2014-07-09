@@ -1,7 +1,7 @@
 # --- !Ups
 
 create table problems (
-  "problem_id" serial not null primary key,
+  "id" serial not null primary key,
   "created_at" timestamp default current_timestamp,
   "updated_at" timestamp default current_timestamp,
   "author" varchar(254) not null,

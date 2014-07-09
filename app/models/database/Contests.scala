@@ -5,7 +5,7 @@ import utils.MyPostgresDriver.simple._
 import java.sql.Timestamp
 
 class Contests(tag: Tag) extends Table[Contest](tag, "contests") with TimestampedTable {
-  def id = column[Long]("contest_id", O.PrimaryKey, O.AutoInc, O.NotNull)
+  def id = column[Long]("id", O.PrimaryKey, O.AutoInc, O.NotNull)
   def startTime = column[Timestamp]("start_time", O.NotNull)
   def duration = column[String]("duration", O.NotNull)
   def title = column[String]("title", O.NotNull)

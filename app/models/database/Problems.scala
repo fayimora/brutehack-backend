@@ -5,7 +5,7 @@ import utils.MyPostgresDriver.simple._
 import java.sql.Timestamp
 
 class Problems(tag: Tag) extends Table[Problem](tag, "problems") with TimestampedTable {
-  def id = column[Long]("problem_id", O.PrimaryKey, O.AutoInc, O.NotNull)
+  def id = column[Long]("id", O.PrimaryKey, O.AutoInc, O.NotNull)
   def author = column[String]("author", O.NotNull)
   def title = column[String]("title", O.NotNull)
   def description = column[String]("description", O.NotNull, O.DBType("TEXT"))

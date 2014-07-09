@@ -1,7 +1,7 @@
 # --- !Ups
 
 create table users (
-  "user_id" serial not null primary key,
+  "id" serial not null primary key,
   "created_at" timestamp default current_timestamp,
   "updated_at" timestamp default current_timestamp,
   "last_visit" timestamp not null,
