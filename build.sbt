@@ -14,7 +14,7 @@ libraryDependencies ++= Seq(
   "com.github.tminglei" %% "slick-pg_play-json" % "0.6.0-M2",
   "com.github.tminglei" %% "slick-pg_jts" % "0.6.0-M2",
   "org.slf4j" % "slf4j-simple" % "1.7.7",
-  "com.typesafe.play" %% "play-slick" % "0.8.0-M1",
+  "com.typesafe.play" %% "play-slick" % "0.8.0",
   cache,
   ws
 )
