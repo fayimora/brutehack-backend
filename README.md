@@ -1,6 +1,11 @@
 ### BruteHack Backend
 
 The backend for brutehack. It's a REST API. More info later
+
+**NB:** I will be re-writing this with finatra and scalikejdbc. Please see the
+[play branch](https://github.com/fayimora/brutehack-backend/tree/play) for the
+Play Framework version.
+
 Copyright (C) 2014 Fayimora Femi-Balogun
 
 Permission is hereby granted, free of charge, to any person obtaining
