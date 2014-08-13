@@ -1,5 +1,7 @@
 ### BruteHack Backend
 
+NB: I will be re-writing this with finatra and scalikejdbc soon
+
 The backend for brutehack. It's a REST API
 Copyright (C) 2014 Fayimora Femi-Balogun
 
