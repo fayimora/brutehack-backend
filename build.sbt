@@ -1,4 +1,4 @@
-name := "Brutehack"
+name := "BruteHack"
 
 organization := "com.brutehack"
 
