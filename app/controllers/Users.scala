@@ -8,16 +8,16 @@ object Users extends Controller {
 
   implicit val userWrites = new Writes[User] {
     def writes(p: User) = Json.obj(
-      "id" -> p.id,
+      "id"        -> p.id,
       "createdAt" -> p.createdAt,
       "updatedAt" -> p.updatedAt,
       "lastVisit" -> p.lastVisit,
-      "handle" -> p.handle,
+      "handle"    -> p.handle,
       "firstName" -> p.firstName,
-      "lastName" -> p.lastName,
-      "email" -> p.email,
-      "rating" -> p.rating,
-      "location" -> p.location,
+      "lastName"  -> p.lastName,
+      "email"     -> p.email,
+      "rating"    -> p.rating,
+      "location"  -> p.location,
       "shirtSize" -> p.shirtSize
       )
   }

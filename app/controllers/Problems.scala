@@ -8,15 +8,15 @@ object Problems extends Controller {
 
   implicit val problemWrites = new Writes[Problem] {
     def writes(p: Problem) = Json.obj(
-      "id" -> p.id,
-      "createdAt" -> p.createdAt,
-      "updatedAt" -> p.updatedAt,
-      "author" -> p.author,
-      "title" -> p.title,
+      "id"          -> p.id,
+      "createdAt"   -> p.createdAt,
+      "updatedAt"   -> p.updatedAt,
+      "author"      -> p.author,
+      "title"       -> p.title,
       "description" -> p.description,
-      "hint" -> p.hint,
-      "inputs" -> Json.toJson(p.inputs),
-      "outputs" -> Json.toJson(p.outputs)
+      "hint"        -> p.hint,
+      "inputs"      -> Json.toJson(p.inputs),
+      "outputs"     -> Json.toJson(p.outputs)
       )
   }
 
