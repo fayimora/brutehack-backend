@@ -24,12 +24,19 @@ object Problems extends Controller {
     def writes(c: List[Problem]) = Json.obj("problems" -> Json.toJson((c)))
   }
 
-  def show = Action { implicit request =>
+  def showWithIds = Action { implicit request =>
     request.queryString.get("ids[]") match {
       case Some(ls) =>
         val problems = Problem.findByIDs(ls.toList.map(_.toLong))
         Ok(Json.toJson(problems))
       case _ => NotFound(Json.obj("error" -> "Please specify ids query params."))
+    }
+  }
+
+  def show(id: Long) = Action { implicit request =>
+    Problem.findByID(id) match {
+      case Some(problem) => Ok(Json.toJson(problem))
+      case _ => NotFound(Json.obj("error" -> "No such problem exists"))
     }
   }
 }

@@ -23,6 +23,16 @@ object Problem {
   val problems = TableQuery[Problems]
   val contestsProblems = TableQuery[ContestsProblems]
 
+  def findByID(id: Long): Option[Problem] = {
+    database withTransaction { implicit session =>
+      val res = problems.filter(_.id === id).list
+      res match {
+        case p::Nil => Some(p)
+        case _ => None
+      }
+    }
+  }
+
   def getProblemIds(cId: Long): List[Long] = {
     database withSession {implicit session =>
       contestsProblems.filter(_.contestId===cId).map(_.problemId).list
