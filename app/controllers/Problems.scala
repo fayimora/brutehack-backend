@@ -7,18 +7,16 @@ import models.Problem
 object Problems extends Controller {
 
   implicit val problemWrites = new Writes[Problem] {
-    def writes(p: Problem) = Json.obj("problem" ->
-      Json.obj(
-        "id"          -> p.id,
-        "createdAt"   -> p.createdAt,
-        "updatedAt"   -> p.updatedAt,
-        "author"      -> p.author,
-        "title"       -> p.title,
-        "description" -> p.description,
-        "hint"        -> p.hint,
-        "inputs"      -> Json.toJson(p.inputs),
-        "outputs"     -> Json.toJson(p.outputs)
-      )
+    def writes(p: Problem) = Json.obj(
+      "id"          -> p.id,
+      "createdAt"   -> p.createdAt,
+      "updatedAt"   -> p.updatedAt,
+      "author"      -> p.author,
+      "title"       -> p.title,
+      "description" -> p.description,
+      "hint"        -> p.hint,
+      "inputs"      -> Json.toJson(p.inputs),
+      "outputs"     -> Json.toJson(p.outputs)
     )
   }
 
@@ -37,7 +35,7 @@ object Problems extends Controller {
 
   def show(id: Long) = Action { implicit request =>
     Problem.findByID(id) match {
-      case Some(problem) => Ok(Json.toJson(problem))
+      case Some(problem) => Ok(Json.obj("problem" -> Json.toJson(problem)))
       case _ => NotFound(Json.obj("error" -> "No such problem exists"))
     }
   }
