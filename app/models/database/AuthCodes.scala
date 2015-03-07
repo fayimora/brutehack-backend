@@ -11,6 +11,7 @@ class AuthCodes(tag: Tag) extends Table[AuthCode](tag, "auth_codes") with Timest
   def scope             = column[Option[String]]("scope")
   def clientId          = column[Option[String]]("client_id")
   def expiresIn         = column[Int]("expires_in")
-  def * = (authorizationCode, userId, redirectUri, scope, clientId, expiresIn, createdAt.?, updatedAt.?) <> (AuthCode.tupled, AuthCode.unapply)
+  def * = (authorizationCode, userId, redirectUri, scope, clientId, expiresIn, createdAt.?,
+    updatedAt.?) <> (AuthCode.tupled, AuthCode.unapply)
 }
 
