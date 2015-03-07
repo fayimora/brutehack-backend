@@ -39,6 +39,12 @@ create table grant_types (
   "id" BIGINT NOT NULL PRIMARY KEY
 );
 
+create table client_grant_types (
+  "client_id" VARCHAR(254) NOT NULL,
+  "grant_type_id" BIGINT NOT NULL
+);
+alter table "client_grant_types" add constraint "pk_client_grant_type" primary key("client_id", "grant_type_id")
+
 # --- !Downs
 
 drop table if exists access_tokens;
