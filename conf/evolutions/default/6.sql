@@ -19,6 +19,8 @@ create trigger auth_codes_timestamp_update before update on auth_codes for each 
 
 create trigger clients_timestamp_update before update on clients for each row execute procedure update_timestamp();
 
+create trigger confirmation_tokens_timestamp_update before update on confirmation_tokens for each row execute procedure update_timestamp();
+
 
 # --- !Downs
 
@@ -29,4 +31,5 @@ drop trigger users_timestamp_update on users;
 drop trigger access_tokens_timestamp_update on access_tokens;
 drop trigger auth_codes_timestamp_update on auth_codes;
 drop trigger clients_timestamp_update on clients;
+drop trigger confirmation_tokens_timestamp_update on confirmation_tokens;
 

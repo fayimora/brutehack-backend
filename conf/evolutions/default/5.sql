@@ -45,10 +45,22 @@ create table client_grant_types (
 );
 alter table "client_grant_types" add constraint "pk_client_grant_type" primary key("client_id", "grant_type_id")
 
+create table confirmation_tokens (
+  "uuid" UUID NOT NULL,
+  "email" VARCHAR(254) NOT NULL,
+  "expiration_time" TIMESTAMP NOT NULL,
+  "is_sign_up" BOOLEAN NOT NULL,
+  "id" BIGSERIAL NOT NULL PRIMARY KEY,
+  "created_at" timestamp default current_timestamp,
+  "updated_at" timestamp default current_timestamp
+);
+
+
 # --- !Downs
 
 drop table if exists access_tokens;
 drop table if exists auth_codes;
 drop table if exists clients;
 drop table if exists grant_types;
+drop table if exists confirmation_tokens;
 
