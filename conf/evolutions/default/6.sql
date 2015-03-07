@@ -17,6 +17,8 @@ create trigger users_timestamp_update before update on access_tokens for each ro
 
 create trigger users_timestamp_update before update on auth_codes for each row execute procedure update_timestamp();
 
+create trigger users_timestamp_update before update on clients for each row execute procedure update_timestamp();
+
 
 # --- !Downs
 
@@ -26,4 +28,5 @@ drop trigger problems_timestamp_update on problems;
 drop trigger users_timestamp_update on users;
 drop trigger users_timestamp_update on access_tokens;
 drop trigger users_timestamp_update on auth_codes;
+drop trigger users_timestamp_update on clients;
 
