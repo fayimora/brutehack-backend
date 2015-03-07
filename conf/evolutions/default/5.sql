@@ -43,7 +43,7 @@ create table client_grant_types (
   "client_id" VARCHAR(254) NOT NULL,
   "grant_type_id" BIGINT NOT NULL
 );
-alter table "client_grant_types" add constraint "pk_client_grant_type" primary key("client_id", "grant_type_id")
+alter table client_grant_types add constraint "pk_client_grant_type" primary key("client_id", "grant_type_id");
 
 create table confirmation_tokens (
   "uuid" UUID NOT NULL,
