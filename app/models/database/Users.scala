@@ -18,7 +18,7 @@ class Users(tag: Tag) extends Table[User](tag, "users") with TimestampedTable {
   def uniqueHandle = index("users_handle", handle, unique=true)
   def uniqueEmail = index("users_email", email, unique=true)
 
-  def * = (lastVisit, handle, firstName, lastName, email, rating,
-    location, shirtSize, id.?, createdAt.?, updatedAt.?) <> ((User.apply _).tupled, User.unapply)
+  def * = (lastVisit, handle, firstName, lastName, email, rating, location, shirtSize, id.?,
+    createdAt.?, updatedAt.?) <> (User.tupled, User.unapply)
 }
 

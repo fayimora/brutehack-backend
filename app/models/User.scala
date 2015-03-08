@@ -18,19 +18,3 @@ case class User(lastVisit: Timestamp,
                 createdAt: Option[Timestamp],
                 updatedAt: Option[Timestamp])
 
-
-object User {
-
-  lazy val database = Database.forDataSource(DB.getDataSource())
-  val users = TableQuery[Users]
-
-  def findByHandle(handle: String): Option[User] = {
-    database withTransaction { implicit session =>
-      val res = users.filter(_.handle === handle).list
-      res match {
-        case user::Nil => Some(user)
-        case _ => None
-      }
-    }
-  }
-}
