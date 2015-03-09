@@ -3,6 +3,7 @@ package controllers
 import play.api.mvc._
 import play.api.libs.json._
 import models.User
+import dao.UsersDAO
 import scala.util.{Try, Success, Failure}
 
 object Users extends Controller {
@@ -24,10 +25,13 @@ object Users extends Controller {
   }
 
   def show(handle: String) = Action {
-    import dao._
     UsersDAO.findByHandle(handle) match {
-      case Some(user) => Ok(Json.obj("user" -> Json.toJson(user)))
-      case None => NotFound(Json.obj({"error" -> s"$handle was not found"}))
+      case Success(opt) => opt match {
+        case Some(user) => Ok(Json.obj("user" -> Json.toJson(user)))
+        case None => NotFound(Json.obj({"error" -> s"$handle was not found"}))
+      }
+      case Failure(err) =>
+        InternalServerError(Json.obj({"error" -> err.getMessage}))
     }
   }
 }
