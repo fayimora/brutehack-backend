@@ -30,9 +30,14 @@ object Contests extends Controller {
   }
 
   def show(id: Long) = Action {
+    import controllers.Problems.{problemWrites}
     Contest.findByID(id) match {
-      case Some(contest) => Ok(Json.obj("contest" -> Json.toJson(contest)))
-      case _ => NotFound(Json.obj("error" -> "No such contest exists"))
+      case Some(contest) =>
+        // TODO: There has to be a better way to handle this.
+        val cprobs = Problem.getProblemIds(contest.id.get).map(id => Json.toJson(Problem.findByID(id).get))
+        Ok(Json.obj("contest" -> Json.toJson(contest), "problems" -> Json.toJson(cprobs)))
+      case _ =>
+        NotFound(Json.obj("error" -> "No such contest exists"))
     }
   }
 }
