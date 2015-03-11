@@ -13,6 +13,7 @@ GET     /api/contests/:id           controllers.Contests.show(id: Long)
 GET     /api/problems               controllers.Problems.showWithIds
 GET     /api/problem/:id            controllers.Problems.show(id: Long)
 GET     /api/user/:handle           controllers.Users.show(handle: String)
+POST    /api/user/create            controllers.Users.create
 
 POST    /oauth2/access_token        controllers.OAuth2Controller.accessToken
 

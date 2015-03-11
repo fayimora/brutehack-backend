@@ -10,10 +10,16 @@ object UsersDAO {
 
   val users = TableQuery[models.database.Users]
 
+  def autoInc = users returning users.map(_.id)
+
   def create(user: User) = {
     Try {
       DB.withSession { implicit session =>
-        users.insert(user)
+        user.id match {
+          case None => autoInc += user
+          case Some(x) => users += user
+        }
+        // users.insert(user)
       }
     }
   }

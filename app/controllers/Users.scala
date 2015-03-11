@@ -70,4 +70,28 @@ object Users extends Controller {
         InternalServerError(Json.obj({"error" -> err.getMessage}))
     }
   }
+
+  def create = Action(BodyParsers.parse.json) { implicit request =>
+    request.body.validate[CreateUser].map{ newUser =>
+      val now = new Timestamp(System.currentTimeMillis())
+      val user = User(now, newUser.handle, newUser.firstName, newUser.lastName, newUser.email, 0,
+        "", "", None, None, None)
+      UsersDAO.create(user)
+      Ok(Json.obj("message" -> (s"User '${newUser.handle}' saved.")))
+    }.getOrElse(BadRequest("error"))
+
+    // val newUser = request.body.validate[CreateUser]
+    // newUser.fold(
+    //   errors => {
+    //     BadRequest(Json.obj("errors" -> JsError.toFlatJson(errors)))
+    //   },
+    //   newUser => {
+    //     val now = new Timestamp(System.currentTimeMillis())
+    //     val user = User(now, newUser.handle, newUser.firstName, newUser.lastName, newUser.email, 0,
+    //       "", "", None, None, None)
+    //     UsersDAO.create(user)
+    //     Ok(Json.obj("message" -> (s"User '${newUser.handle}' saved.")))
+    //   }
+    // )
+  }
 }
