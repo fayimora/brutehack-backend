@@ -3,9 +3,9 @@
 create table access_tokens (
   "token" VARCHAR(254) NOT NULL,
   "refresh_token" VARCHAR(254) NOT NULL,
-  "client_id" VARCHAR(254) NOT NULL,
+  "client_id" VARCHAR(254),
   "user_id" BIGINT NOT NULL,
-  "scope" VARCHAR(254) NOT NULL,
+  "scope" VARCHAR(254),
   "expires_in" BIGINT NOT NULL,
   "id" BIGSERIAL NOT NULL PRIMARY KEY,
   "created_at" timestamp default current_timestamp,
