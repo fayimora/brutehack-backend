@@ -12,7 +12,7 @@ object AccessTokenDAO {
 
   val accessTokens = TableQuery[models.database.AccessTokens]
 
-  def deleteExistingAndCreate(accessToken: AccessToken, userId: Long, clientId: Option[String])
+  def deleteExistingAndCreate(accessToken: AccessToken, userId: Long)
     (implicit ec: ExecutionContext): Future[Unit] = Future {
     DB.withSession { implicit session =>
       // these two operations should happen inside a transaction

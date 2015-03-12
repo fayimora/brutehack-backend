@@ -31,7 +31,7 @@ class OAuth2DataHandler extends DataHandler[User] {
     val tokenObject = AccessToken(accessToken, refreshToken, clientId, userId, authInfo.scope,
       expiresIn, None, Some(now), Some(now))
 
-    AccessTokenDAO.deleteExistingAndCreate(tokenObject, authInfo.user.id.get, authInfo.clientId)
+    AccessTokenDAO.deleteExistingAndCreate(tokenObject, authInfo.user.id.get)
 
     Future.successful(
       AT(accessToken, Some(refreshToken), authInfo.scope, Some(expiresIn), now)
