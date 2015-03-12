@@ -11,15 +11,6 @@ import java.sql.Timestamp
 object Users extends Controller {
 
   implicit val rds: Reads[Timestamp] = (__ \ "time").read[Long].map{ long => new Timestamp(long) }
-  // implicit val timestampFormat: Format[Timestamp] = (
-  //   (__ \ "time").format[Long]
-  // )((long: Long) => new Timestamp(long), (ts: Timestamp) => (ts.getTime))
-  // implicit object TimestampFormat extends Format[Timestamp] {
-  //   def reads = new Timestamp(
-  //     (__ \ "time").format[Long]
-  //   )((long: Long) => new Timestamp(long), (ts: Timestamp) => (ts.getTime))
-  // }
-
   implicit val userWrites: Writes[User] = (
     (__ \ "lastVisit").write[Timestamp] and
     (__ \ "handle").write[String] and
@@ -34,30 +25,22 @@ object Users extends Controller {
     (__ \ "updatedAt").writeNullable[Timestamp]
   )(unlift(User.unapply))
 
+  def now = new Timestamp(System.currentTimeMillis())
   implicit val userReads: Reads[User] = (
-    (__ \ "lastVisit").read[Timestamp] and
+    (__ \ "lastVisit").readNullable[Timestamp].map(_.getOrElse(now)) and
     (__ \ "handle").read[String] and
     (__ \ "firstName").read[String] and
     (__ \ "lastName").read[String] and
     (__ \ "email").read[String] and
-    (__ \ "rating").read[Int] and
-    (__ \ "location").read[String] and
-    (__ \ "shirtSize").read[String] and
+    (__ \ "rating").readNullable[Int].map(_.getOrElse(0)) and
+    (__ \ "location").readNullable[String].map(_.getOrElse("")) and
+    (__ \ "shirtSize").readNullable[String].map(_.getOrElse("")) and
     (__ \ "id").readNullable[Long] and
-    (__ \ "createdAt").readNullable[Timestamp] and
-    (__ \ "updatedAt").readNullable[Timestamp]
+    (__ \ "createdAt").readNullable[Timestamp].map(_.orElse(Option(now))) and
+    (__ \ "updatedAt").readNullable[Timestamp].map(_.orElse(Option(now)))
   )(User.apply _)
 
   implicit val userFormat: Format[User] = Format(userReads, userWrites)
-
-
-  case class CreateUser(email: String, handle: String, firstName: String, lastName: String)
-  implicit def createUserReads: Reads[CreateUser] = (
-    (__ \ "email").read[String] and
-    (__ \ "handle").read[String] and
-    (__ \ "firstName").read[String] and
-    (__ \ "lastName").read[String]
-  )(CreateUser.apply _)
 
 
   def show(handle: String) = Action {
@@ -72,26 +55,11 @@ object Users extends Controller {
   }
 
   def create = Action(BodyParsers.parse.json) { implicit request =>
-    request.body.validate[CreateUser].map{ newUser =>
-      val now = new Timestamp(System.currentTimeMillis())
-      val user = User(now, newUser.handle, newUser.firstName, newUser.lastName, newUser.email, 0,
-        "", "", None, None, None)
-      UsersDAO.create(user)
-      Ok(Json.obj("message" -> (s"User '${newUser.handle}' saved.")))
+    request.body.validate[User].map{ newUser =>
+      UsersDAO.create(newUser) match {
+        case Success(u) => Ok(Json.toJson(u))
+        case Failure(err) => BadRequest(err.getMessage)
+      }
     }.getOrElse(BadRequest("error"))
-
-    // val newUser = request.body.validate[CreateUser]
-    // newUser.fold(
-    //   errors => {
-    //     BadRequest(Json.obj("errors" -> JsError.toFlatJson(errors)))
-    //   },
-    //   newUser => {
-    //     val now = new Timestamp(System.currentTimeMillis())
-    //     val user = User(now, newUser.handle, newUser.firstName, newUser.lastName, newUser.email, 0,
-    //       "", "", None, None, None)
-    //     UsersDAO.create(user)
-    //     Ok(Json.obj("message" -> (s"User '${newUser.handle}' saved.")))
-    //   }
-    // )
   }
 }
