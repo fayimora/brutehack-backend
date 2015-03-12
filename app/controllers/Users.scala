@@ -10,7 +10,8 @@ import java.sql.Timestamp
 
 object Users extends Controller {
 
-  implicit val rds: Reads[Timestamp] = (__ \ "time").read[Long].map{ long => new Timestamp(long) }
+  implicit val timeReads: Reads[Timestamp] = (__ \ "time").read[Long].map{ long => new Timestamp(long) }
+
   implicit val userWrites: Writes[User] = (
     (__ \ "lastVisit").write[Timestamp] and
     (__ \ "handle").write[String] and
@@ -25,7 +26,6 @@ object Users extends Controller {
     (__ \ "updatedAt").writeNullable[Timestamp]
   )(unlift(User.unapply))
 
-  def now = new Timestamp(System.currentTimeMillis())
   implicit val userReads: Reads[User] = (
     (__ \ "lastVisit").readNullable[Timestamp].map(_.getOrElse(now)) and
     (__ \ "handle").read[String] and
@@ -42,6 +42,8 @@ object Users extends Controller {
 
   implicit val userFormat: Format[User] = Format(userReads, userWrites)
 
+
+  def now = new Timestamp(System.currentTimeMillis())
 
   def index = Action {
     UsersDAO.list match {
