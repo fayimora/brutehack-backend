@@ -43,14 +43,21 @@ object Users extends Controller {
   implicit val userFormat: Format[User] = Format(userReads, userWrites)
 
 
+  def index = Action {
+    UsersDAO.list match {
+      case Success(users) => Ok(Json.toJson(users))
+      case Failure(err) => InternalServerError(err.getMessage)
+    }
+  }
+
   def show(handle: String) = Action {
     UsersDAO.findByHandle(handle) match {
       case Success(opt) => opt match {
         case Some(user) => Ok(Json.obj("user" -> Json.toJson(user)))
-        case None => NotFound(Json.obj({"error" -> s"$handle was not found"}))
+        case None => NotFound(Json.obj("error" -> s"$handle was not found"))
       }
       case Failure(err) =>
-        InternalServerError(Json.obj({"error" -> err.getMessage}))
+        InternalServerError(Json.obj("error" -> err.getMessage))
     }
   }
 

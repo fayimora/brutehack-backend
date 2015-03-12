@@ -12,6 +12,14 @@ object UsersDAO {
 
   def autoInc = users returning users
 
+  def list: Try[List[User]] = {
+    Try {
+      DB.withSession{ implicit session =>
+        users.list
+      }
+    }
+  }
+
   def create(user: User): Try[User] = {
     Try {
       DB.withSession { implicit session =>
