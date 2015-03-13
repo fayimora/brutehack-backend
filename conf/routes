@@ -8,10 +8,12 @@ OPTIONS        /*path               controllers.Application.options(path)
 # Home page
 GET     /                           controllers.Application.index
 GET     /api                        controllers.Application.api
+
 GET     /api/contests               controllers.Contests.index
 GET     /api/contests/:id           controllers.Contests.show(id: Long)
+
 GET     /api/problems               controllers.Problems.showWithIds
-GET     /api/problems/:id            controllers.Problems.show(id: Long)
+GET     /api/problems/:id           controllers.Problems.show(id: Long)
 
 GET     /api/user/:handle           controllers.Users.show(handle: String)
 GET     /api/users                  controllers.Users.index
