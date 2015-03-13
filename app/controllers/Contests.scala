@@ -30,9 +30,8 @@ object Contests extends Controller {
   }
 
   def show(id: Long) = Action {
-    Contest.findByID(id) match {
-      case Some(contest) => Ok(Json.obj("contest" -> Json.toJson(contest)))
-      case _ => NotFound(Json.obj("error" -> "No such contest exists"))
-    }
+    Contest.findByID(id)
+      .map(c => Ok(Json.obj("contest" -> Json.toJson(c))))
+      .getOrElse(NotFound(Json.obj("error" -> "No such contest exists")))
   }
 }

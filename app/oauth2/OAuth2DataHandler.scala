@@ -13,10 +13,7 @@ class OAuth2DataHandler extends DataHandler[User] {
   def validateClient(clientCredential: ClientCredential, grantType: String): Future[Boolean] = ???
 
   def findUser(username: String, password: String): Future[Option[User]] = Future {
-    UsersDAO.findByHandle(username) match {
-      case Success(user) => user
-      case Failure(err) => None
-    }
+    UsersDAO.findByHandle(username).map(user => user).getOrElse(None)
   }
 
   def createAccessToken(authInfo: AuthInfo[User]): Future[AT] = {
