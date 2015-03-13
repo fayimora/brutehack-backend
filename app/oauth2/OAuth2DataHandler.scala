@@ -3,7 +3,7 @@ package oauth2
 import scalaoauth2.provider.{DataHandler, AuthInfo, ClientCredential, AccessToken => AT}
 import scala.concurrent.{Future, ExecutionContext}
 import models.{User, AccessToken}
-import dao.UsersDAO
+import dao.UserDAO
 import scala.util.{Try, Success, Failure}
 import scala.concurrent.ExecutionContext.Implicits.global
 import java.sql.Timestamp
@@ -13,7 +13,7 @@ class OAuth2DataHandler extends DataHandler[User] {
   def validateClient(clientCredential: ClientCredential, grantType: String): Future[Boolean] = ???
 
   def findUser(username: String, password: String): Future[Option[User]] = Future {
-    UsersDAO.findByHandle(username).map(user => user).getOrElse(None)
+    UserDAO.findByHandle(username).map(user => user).getOrElse(None)
   }
 
   def createAccessToken(authInfo: AuthInfo[User]): Future[AT] = {

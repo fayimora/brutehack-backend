@@ -6,7 +6,7 @@ import utils.MyPostgresDriver.simple._
 import models.User
 import scala.util.{Try}
 
-object UsersDAO {
+object UserDAO {
 
   val users = TableQuery[models.database.Users]
 

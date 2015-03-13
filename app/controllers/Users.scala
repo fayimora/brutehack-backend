@@ -4,7 +4,7 @@ import play.api.mvc._
 import play.api.libs.json._
 import play.api.libs.functional.syntax._
 import models.User
-import dao.UsersDAO
+import dao.UserDAO
 import scala.util.{Try, Success, Failure}
 import java.sql.Timestamp
 
@@ -46,14 +46,14 @@ object Users extends Controller {
   def now = new Timestamp(System.currentTimeMillis())
 
   def index = Action {
-    UsersDAO.list match {
+    UserDAO.list match {
       case Success(users) => Ok(Json.toJson(users))
       case Failure(err) => InternalServerError(err.getMessage)
     }
   }
 
   def show(handle: String) = Action {
-    UsersDAO.findByHandle(handle) match {
+    UserDAO.findByHandle(handle) match {
       case Success(opt) => opt match {
         case Some(user) => Ok(Json.obj("user" -> Json.toJson(user)))
         case None => NotFound(Json.obj("error" -> s"$handle was not found"))
@@ -65,7 +65,7 @@ object Users extends Controller {
 
   def create = Action(BodyParsers.parse.json) { implicit request =>
     request.body.validate[User].map{ newUser =>
-      UsersDAO.create(newUser) match {
+      UserDAO.create(newUser) match {
         case Success(u) => Ok(Json.toJson(u))
         case Failure(err) => BadRequest(err.getMessage)
       }
