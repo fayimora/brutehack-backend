@@ -7,9 +7,12 @@ import dao.UserDAO
 import scala.util.{Try, Success, Failure}
 import scala.concurrent.ExecutionContext.Implicits.global
 import java.sql.Timestamp
+import java.util.Date
 import dao.AccessTokenDAO
 
 class OAuth2DataHandler extends DataHandler[User] {
+  def now = new Timestamp(System.currentTimeMillis())
+
   def validateClient(clientCredential: ClientCredential, grantType: String): Future[Boolean] = ???
 
   def findUser(username: String, password: String): Future[Option[User]] = Future {
@@ -21,7 +24,6 @@ class OAuth2DataHandler extends DataHandler[User] {
     val expiresIn = 60L * 60L // 1 hour
     val refreshToken = Crypto.generateToken
     val accessToken = Crypto.generateToken
-    val now = new Timestamp(System.currentTimeMillis())
     val userId = authInfo.user.id.get
     val clientId = None
 
@@ -35,7 +37,14 @@ class OAuth2DataHandler extends DataHandler[User] {
     )
   }
 
-  def getStoredAccessToken(authInfo: AuthInfo[User]): Future[Option[AT]] = ???
+  def getStoredAccessToken(authInfo: AuthInfo[User]): Future[Option[AT]] = {
+    AccessTokenDAO.findToken(authInfo.user.id.get).map(optToken =>
+        optToken.map{token =>
+          val createdAt = new Date(token.createdAt.getOrElse(now).getTime)
+          AT(token.accessToken, Some(token.refreshToken), token.scope, Some(token.expiresIn), createdAt)
+        }
+    )
+  }
 
   def refreshAccessToken(authInfo: AuthInfo[User], refreshToken: String): Future[AT] = ???
 
