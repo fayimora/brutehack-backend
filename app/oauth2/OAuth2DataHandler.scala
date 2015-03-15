@@ -46,7 +46,9 @@ class OAuth2DataHandler extends DataHandler[User] {
     )
   }
 
-  def refreshAccessToken(authInfo: AuthInfo[User], refreshToken: String): Future[AT] = ???
+  def refreshAccessToken(authInfo: AuthInfo[User], refreshToken: String): Future[AT] = {
+    createAccessToken(authInfo)
+  }
 
   def findAuthInfoByCode(code: String): Future[Option[AuthInfo[User]]] = ???
 
