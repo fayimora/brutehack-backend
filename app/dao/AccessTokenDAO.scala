@@ -27,7 +27,11 @@ object AccessTokenDAO {
     }
   }
 
-
+  def findAccessToken(token: String)(implicit ec: ExecutionContext): Future[Option[AccessToken]] = Future {
+    DB.withSession { implicit session =>
+      accessTokens.filter(a => a.accessToken === token).firstOption
+    }
+  }
 
 }
 

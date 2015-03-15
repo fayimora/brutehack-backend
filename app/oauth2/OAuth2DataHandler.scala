@@ -11,7 +11,9 @@ import java.util.Date
 import dao.AccessTokenDAO
 
 class OAuth2DataHandler extends DataHandler[User] {
-  def now = new Timestamp(System.currentTimeMillis())
+  private def now = new Timestamp(System.currentTimeMillis())
+
+  def createdAt(token: AccessToken) = new Date(token.createdAt.getOrElse(now).getTime)
 
   def validateClient(clientCredential: ClientCredential, grantType: String): Future[Boolean] = ???
 
@@ -40,8 +42,7 @@ class OAuth2DataHandler extends DataHandler[User] {
   def getStoredAccessToken(authInfo: AuthInfo[User]): Future[Option[AT]] = {
     AccessTokenDAO.findToken(authInfo.user.id.get).map(optToken =>
         optToken.map{token =>
-          val createdAt = new Date(token.createdAt.getOrElse(now).getTime)
-          AT(token.accessToken, Some(token.refreshToken), token.scope, Some(token.expiresIn), createdAt)
+          AT(token.accessToken, Some(token.refreshToken), token.scope, Some(token.expiresIn), createdAt(token))
         }
     )
   }
@@ -56,7 +57,11 @@ class OAuth2DataHandler extends DataHandler[User] {
 
   def findClientUser(clientCredential: ClientCredential, scope: Option[String]): Future[Option[User]] = ???
 
-  def findAccessToken(token: String): Future[Option[AT]] = ???
+  def findAccessToken(token: String): Future[Option[AT]] = {
+    AccessTokenDAO.findAccessToken(token).map(_.map(token =>
+        AT(token.accessToken, Some(token.refreshToken), token.scope, Some(token.expiresIn), createdAt(token)))
+      )
+  }
 
   def findAuthInfoByAccessToken(accessToken: AT): Future[Option[AuthInfo[User]]] = ???
 }
