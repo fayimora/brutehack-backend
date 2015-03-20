@@ -45,10 +45,10 @@ object Users extends Controller {
 
   def now = new Timestamp(System.currentTimeMillis())
 
-  def index = Action {
-    UserDAO.list match {
-      case Success(users) => Ok(Json.toJson(users))
-      case Failure(err) => InternalServerError(err.getMessage)
+  import scala.concurrent.ExecutionContext.Implicits.global
+  def index = Action.async {
+    UserDAO.list.map{ usersTry =>
+      usersTry.map(users => Ok(Json.toJson(users))).getOrElse(InternalServerError)
     }
   }
 

@@ -5,6 +5,7 @@ import play.api.Play.current
 import utils.MyPostgresDriver.simple._
 import models.User
 import scala.util.{Try}
+import scala.concurrent.{Future, ExecutionContext}
 
 object UserDAO {
 
@@ -12,7 +13,7 @@ object UserDAO {
 
   def autoInc = users returning users
 
-  def list: Try[List[User]] = {
+  def list(implicit ec: ExecutionContext) = Future{
     Try {
       DB.withSession{ implicit session =>
         users.list
@@ -20,20 +21,26 @@ object UserDAO {
     }
   }
 
-  def create(user: User): Try[User] = {
-    Try {
-      DB.withSession { implicit session =>
-        autoInc += user
-      }
+
+  def create(user: User): Try[User] = Try {
+    DB.withSession { implicit session =>
+      autoInc += user
     }
   }
 
-  def findByHandle(handle: String) = {
-    Try {
-      DB.withSession { implicit session =>
-        users.filter(_.handle === handle).firstOption
-      }
+
+  def findById(id: Long) = Try {
+    DB.withSession { implicit session =>
+      users.filter(_.id === id).firstOption
     }
   }
+
+
+  def findByHandle(handle: String) = Try {
+    DB.withSession { implicit session =>
+      users.filter(_.handle === handle).firstOption
+    }
+  }
+
 }
 
