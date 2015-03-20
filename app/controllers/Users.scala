@@ -5,8 +5,10 @@ import play.api.libs.json._
 import play.api.libs.functional.syntax._
 import models.User
 import dao.UserDAO
-import scala.util.{Try, Success, Failure}
+import scala.util.{Success, Failure}
 import java.sql.Timestamp
+import concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object Users extends Controller {
 
@@ -45,30 +47,28 @@ object Users extends Controller {
 
   def now = new Timestamp(System.currentTimeMillis())
 
-  import scala.concurrent.ExecutionContext.Implicits.global
   def index = Action.async {
     UserDAO.list.map{ usersTry =>
       usersTry.map(users => Ok(Json.toJson(users))).getOrElse(InternalServerError)
     }
   }
 
-  def show(handle: String) = Action {
-    UserDAO.findByHandle(handle) match {
-      case Success(opt) => opt match {
+  def show(handle: String) = Action.async {
+    UserDAO.findByHandle(handle).map {
+      case Success(userOpt) => userOpt match {
         case Some(user) => Ok(Json.obj("user" -> Json.toJson(user)))
         case None => NotFound(Json.obj("error" -> s"$handle was not found"))
       }
-      case Failure(err) =>
-        InternalServerError(Json.obj("error" -> err.getMessage))
+      case Failure(err) => InternalServerError
     }
   }
 
-  def create = Action(BodyParsers.parse.json) { implicit request =>
+  def create = Action.async(BodyParsers.parse.json) { implicit request =>
     request.body.validate[User].map{ newUser =>
-      UserDAO.create(newUser) match {
+      UserDAO.create(newUser).map {
         case Success(u) => Ok(Json.toJson(u))
         case Failure(err) => BadRequest(err.getMessage)
       }
-    }.getOrElse(BadRequest("error"))
+    }.getOrElse(Future.successful(BadRequest("error")))
   }
 }

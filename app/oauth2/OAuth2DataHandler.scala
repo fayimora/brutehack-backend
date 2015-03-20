@@ -17,8 +17,11 @@ class OAuth2DataHandler extends DataHandler[User] {
 
   def validateClient(clientCredential: ClientCredential, grantType: String): Future[Boolean] = ???
 
-  def findUser(username: String, password: String): Future[Option[User]] = Future {
-    UserDAO.findByHandle(username).map(user => user).getOrElse(None)
+  def findUser(username: String, password: String): Future[Option[User]] = {
+    UserDAO.findByHandle(username).map {
+      case Success(user) => user
+      case Failure(err) => None
+    }
   }
 
   def createAccessToken(authInfo: AuthInfo[User]): Future[AT] = {
@@ -53,16 +56,14 @@ class OAuth2DataHandler extends DataHandler[User] {
 
   def findAuthInfoByCode(code: String): Future[Option[AuthInfo[User]]] = {
     AuthCodeDAO.find(code).flatMap { optCode =>
-      Future{
-        optCode.flatMap { token =>
-          UserDAO.findById(token.userId) match {
-            case Success(user) =>
-              Some(AuthInfo(user.get, token.clientId, token.scope, token.redirectUri))
-            case _ =>
-              None
-          }
+      optCode.map { token =>
+        UserDAO.findById(token.userId).map {
+          case Success(user) =>
+            Some(AuthInfo(user.get, token.clientId, token.scope, token.redirectUri))
+          case _ =>
+            None
         }
-      }//.getOrElse(Future.successful(None))
+      }.getOrElse(Future.successful(None))
     }
   }
 
