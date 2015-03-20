@@ -25,7 +25,6 @@ class OAuth2DataHandler extends DataHandler[User] {
   }
 
   def createAccessToken(authInfo: AuthInfo[User]): Future[AT] = {
-    import oauth2.Crypto
     val expiresIn = 60L * 60L // 1 hour
     val refreshToken = Crypto.generateToken
     val accessToken = Crypto.generateToken
@@ -55,6 +54,13 @@ class OAuth2DataHandler extends DataHandler[User] {
     createAccessToken(authInfo)
   }
 
+  def findClientUser(clientCredential: ClientCredential, scope: Option[String]): Future[Option[User]] = ???
+
+  def findAccessToken(token: String): Future[Option[AT]] = {
+    AccessTokenDAO.findAccessToken(token).map(_.map(token =>
+      AT(token.accessToken, Some(token.refreshToken), token.scope, Some(token.expiresIn), createdAt(token)))
+    )
+  }
   def findAuthInfoByCode(code: String): Future[Option[AuthInfo[User]]] = {
     AuthCodeDAO.find(code).flatMap { optCode =>
       optCode.map { token =>
@@ -80,15 +86,7 @@ class OAuth2DataHandler extends DataHandler[User] {
       }.getOrElse(Future.successful(None))
     }
   }
-
-  def findClientUser(clientCredential: ClientCredential, scope: Option[String]): Future[Option[User]] = ???
-
-  def findAccessToken(token: String): Future[Option[AT]] = {
-    AccessTokenDAO.findAccessToken(token).map(_.map(token =>
-      AT(token.accessToken, Some(token.refreshToken), token.scope, Some(token.expiresIn), createdAt(token)))
-    )
-  }
-
+  
   def findAuthInfoByAccessToken(accessToken: AT): Future[Option[AuthInfo[User]]] = {
     AccessTokenDAO.findRefreshToken(accessToken.token).flatMap{ optToken =>
       optToken.map{ token =>
