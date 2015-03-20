@@ -20,8 +20,7 @@ object Users extends Controller {
     (__ \ "firstName").write[String] and
     (__ \ "lastName").write[String] and
     (__ \ "email").write[String] and
-    (__ \ "password").write[String] and
-    (__ \ "salt").writeNullable[String] and
+    (__ \ "password").write[String]/*.transform(x => JsString("")) */and
     (__ \ "rating").write[Int] and
     (__ \ "location").write[String] and
     (__ \ "shirtSize").write[String] and
@@ -37,7 +36,6 @@ object Users extends Controller {
     (__ \ "lastName").read[String] and
     (__ \ "email").read[String] and
     (__ \ "password").readNullable[String].map(_.getOrElse("")) and
-    (__ \ "salt").readNullable[String].map(_.orElse(None)) and
     (__ \ "rating").readNullable[Int].map(_.getOrElse(0)) and
     (__ \ "location").readNullable[String].map(_.getOrElse("")) and
     (__ \ "shirtSize").readNullable[String].map(_.getOrElse("")) and
@@ -70,7 +68,7 @@ object Users extends Controller {
   def create = Action.async(BodyParsers.parse.json) { implicit request =>
     request.body.validate[User].map{ newUser =>
       val (encryptedPass, salt) = oauth2.Crypto.encryptPassword(newUser.password)
-      val encryptedUser = newUser.copy(password = encryptedPass, salt = salt)
+      val encryptedUser = newUser.copy(password = encryptedPass)
       UserDAO.create(encryptedUser).map {
         case Success(u) => Ok(Json.toJson(u))
         case Failure(err) => BadRequest(err.getMessage)

@@ -10,7 +10,6 @@ create table users (
   "lastname" varchar(254) not null,
   "email" varchar(254) not null unique,
   "password" varchar(254) not null,
-  "salt" varchar(254),
   "rating" integer not null,
   "location" varchar(254) not null,
   "shirtsize" varchar(254) not null
