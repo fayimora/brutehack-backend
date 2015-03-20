@@ -89,5 +89,16 @@ class OAuth2DataHandler extends DataHandler[User] {
     )
   }
 
-  def findAuthInfoByAccessToken(accessToken: AT): Future[Option[AuthInfo[User]]] = ???
+  def findAuthInfoByAccessToken(accessToken: AT): Future[Option[AuthInfo[User]]] = {
+    AccessTokenDAO.findRefreshToken(accessToken.token).flatMap{ optToken =>
+      optToken.map{ token =>
+        UserDAO.findById(token.userId).map {
+          case Success(user) =>
+            Some(AuthInfo(user.get, token.clientId, token.scope, token.redirectUri))
+          case Failure(err) =>
+            None
+        }
+      }.getOrElse(Future.successful(None))
+    }
+  }
 }
