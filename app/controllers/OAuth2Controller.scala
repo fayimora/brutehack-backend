@@ -11,7 +11,7 @@ trait MyOAuth extends OAuth2Provider {
   override val tokenEndpoint: TokenEndpoint = CustomTokenEndpoint
 }
 
-object OAuth2Controller extends Controller with OAuth2Provider {
+object OAuth2Controller extends Controller with MyOAuth {
   def accessToken = Action.async { implicit request =>
     issueAccessToken(new OAuth2DataHandler())
   }
