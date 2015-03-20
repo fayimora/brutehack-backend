@@ -6,6 +6,7 @@ import java.security.MessageDigest
 import java.util.Date
 import scala.util.Random
 import javax.xml.bind.DatatypeConverter
+import org.mindrot.jbcrypt.BCrypt
 
 object Crypto {
 
@@ -28,5 +29,12 @@ object Crypto {
     md.update(randomString.getBytes())
     DatatypeConverter.printHexBinary(md.digest)
   }
+
+  def encryptPassword(password: String): (String, Option[String]) = {
+    val salt = BCrypt.gensalt(10)
+    val hash = BCrypt.hashpw(password, salt)
+    (hash, Some(salt))
+  }
+
 }
 

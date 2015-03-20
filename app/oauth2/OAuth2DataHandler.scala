@@ -9,6 +9,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import java.sql.Timestamp
 import java.util.Date
 import dao.{AccessTokenDAO, AuthCodeDAO}
+import org.mindrot.jbcrypt.BCrypt
+
 
 class OAuth2DataHandler extends DataHandler[User] {
   private def now = new Timestamp(System.currentTimeMillis())
@@ -19,7 +21,7 @@ class OAuth2DataHandler extends DataHandler[User] {
 
   def findUser(username: String, password: String): Future[Option[User]] = {
     UserDAO.findByHandle(username).map {
-      case Success(user) => user
+      case Success(optUser) => optUser.filter(user => BCrypt.checkpw(password, user.password))
       case Failure(err) => None
     }
   }
@@ -86,7 +88,7 @@ class OAuth2DataHandler extends DataHandler[User] {
       }.getOrElse(Future.successful(None))
     }
   }
-  
+
   def findAuthInfoByAccessToken(accessToken: AT): Future[Option[AuthInfo[User]]] = {
     AccessTokenDAO.findRefreshToken(accessToken.token).flatMap{ optToken =>
       optToken.map{ token =>

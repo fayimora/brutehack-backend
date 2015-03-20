@@ -11,6 +11,8 @@ class Users(tag: Tag) extends Table[User](tag, "users") with TimestampedTable {
   def firstName    = column[String]("firstname")
   def lastName     = column[String]("lastname")
   def email        = column[String]("email", O.NotNull)
+  def password     = column[String]("password", O.NotNull)
+  def salt         = column[Option[String]]("salt")
   def rating       = column[Int]("rating", O.NotNull)
   def location     = column[String]("location", O.NotNull)
   def shirtSize    = column[String]("shirtsize", O.NotNull)
@@ -18,7 +20,7 @@ class Users(tag: Tag) extends Table[User](tag, "users") with TimestampedTable {
   def uniqueHandle = index("users_handle", handle, unique = true)
   def uniqueEmail  = index("users_email", email, unique = true)
 
-  def * = (lastVisit, handle, firstName, lastName, email, rating, location, shirtSize, id.?,
+  def * = (lastVisit, handle, firstName, lastName, email, password, salt, rating, location, shirtSize, id.?,
     createdAt.?, updatedAt.?) <> (User.tupled, User.unapply)
 }
 
