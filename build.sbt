@@ -15,6 +15,7 @@ libraryDependencies ++= Seq(
   "org.slf4j" % "slf4j-simple" % "1.7.7",
   "com.typesafe.play" %% "play-slick" % "0.8.0",
   "com.nulab-inc" %% "play2-oauth2-provider" % "0.12.1",
+  "org.mindrot" % "jbcrypt" % "0.3m",
   cache,
   ws
 )
