@@ -4,7 +4,8 @@ import java.sql.Timestamp
 
 case class AccessToken(accessToken: String,
                        refreshToken: String,
-                       clientId: Option[Long],
+                       clientId: Option[String],
+                       redirectUri: Option[String],
                        userId: Long,
                        scope: Option[String],
                        expiresIn: Long,

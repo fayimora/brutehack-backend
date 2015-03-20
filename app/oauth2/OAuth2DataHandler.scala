@@ -31,8 +31,9 @@ class OAuth2DataHandler extends DataHandler[User] {
     val accessToken = Crypto.generateToken
     val userId = authInfo.user.id.get
     val clientId = None
+    val redirectUri = None
 
-    val tokenObject = AccessToken(accessToken, refreshToken, clientId, userId, authInfo.scope,
+    val tokenObject = AccessToken(accessToken, refreshToken, clientId, redirectUri, userId, authInfo.scope,
       expiresIn, None, Some(now), Some(now))
 
     AccessTokenDAO.deleteExistingAndCreate(tokenObject, authInfo.user.id.get)
@@ -67,7 +68,18 @@ class OAuth2DataHandler extends DataHandler[User] {
     }
   }
 
-  def findAuthInfoByRefreshToken(refreshToken: String): Future[Option[AuthInfo[User]]] = ???
+  def findAuthInfoByRefreshToken(refreshToken: String): Future[Option[AuthInfo[User]]] = {
+    AccessTokenDAO.findRefreshToken(refreshToken).flatMap{ optToken =>
+      optToken.map{ token =>
+        UserDAO.findById(token.userId).map {
+          case Success(user) =>
+            Some(AuthInfo(user.get, token.clientId, token.scope, token.redirectUri))
+          case Failure(err) =>
+            None
+        }
+      }.getOrElse(Future.successful(None))
+    }
+  }
 
   def findClientUser(clientCredential: ClientCredential, scope: Option[String]): Future[Option[User]] = ???
 

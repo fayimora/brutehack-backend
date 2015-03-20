@@ -4,6 +4,7 @@ create table access_tokens (
   "token" VARCHAR(254) NOT NULL,
   "refresh_token" VARCHAR(254) NOT NULL,
   "client_id" VARCHAR(254),
+  "redirect_uri" VARCHAR(254),
   "user_id" BIGINT NOT NULL,
   "scope" VARCHAR(254),
   "expires_in" BIGINT NOT NULL,
