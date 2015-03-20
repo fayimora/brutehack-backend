@@ -8,7 +8,7 @@ import scala.util.{Try, Success, Failure}
 import scala.concurrent.ExecutionContext.Implicits.global
 import java.sql.Timestamp
 import java.util.Date
-import dao.AccessTokenDAO
+import dao.{AccessTokenDAO, AuthCodeDAO}
 
 class OAuth2DataHandler extends DataHandler[User] {
   private def now = new Timestamp(System.currentTimeMillis())
@@ -41,9 +41,9 @@ class OAuth2DataHandler extends DataHandler[User] {
 
   def getStoredAccessToken(authInfo: AuthInfo[User]): Future[Option[AT]] = {
     AccessTokenDAO.findToken(authInfo.user.id.get).map(optToken =>
-        optToken.map{token =>
-          AT(token.accessToken, Some(token.refreshToken), token.scope, Some(token.expiresIn), createdAt(token))
-        }
+      optToken.map{token =>
+        AT(token.accessToken, Some(token.refreshToken), token.scope, Some(token.expiresIn), createdAt(token))
+      }
     )
   }
 
@@ -51,7 +51,20 @@ class OAuth2DataHandler extends DataHandler[User] {
     createAccessToken(authInfo)
   }
 
-  def findAuthInfoByCode(code: String): Future[Option[AuthInfo[User]]] = ???
+  def findAuthInfoByCode(code: String): Future[Option[AuthInfo[User]]] = {
+    AuthCodeDAO.find(code).flatMap { optCode =>
+      Future{
+        optCode.flatMap { token =>
+          UserDAO.findById(token.userId) match {
+            case Success(user) =>
+              Some(AuthInfo(user.get, token.clientId, token.scope, token.redirectUri))
+            case _ =>
+              None
+          }
+        }
+      }//.getOrElse(Future.successful(None))
+    }
+  }
 
   def findAuthInfoByRefreshToken(refreshToken: String): Future[Option[AuthInfo[User]]] = ???
 
@@ -59,8 +72,8 @@ class OAuth2DataHandler extends DataHandler[User] {
 
   def findAccessToken(token: String): Future[Option[AT]] = {
     AccessTokenDAO.findAccessToken(token).map(_.map(token =>
-        AT(token.accessToken, Some(token.refreshToken), token.scope, Some(token.expiresIn), createdAt(token)))
-      )
+      AT(token.accessToken, Some(token.refreshToken), token.scope, Some(token.expiresIn), createdAt(token)))
+    )
   }
 
   def findAuthInfoByAccessToken(accessToken: AT): Future[Option[AuthInfo[User]]] = ???
