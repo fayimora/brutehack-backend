@@ -63,6 +63,7 @@ class OAuth2DataHandler extends DataHandler[User] {
       AT(token.accessToken, Some(token.refreshToken), token.scope, Some(token.expiresIn), createdAt(token)))
     )
   }
+
   def findAuthInfoByCode(code: String): Future[Option[AuthInfo[User]]] = {
     AuthCodeDAO.find(code).flatMap { optCode =>
       optCode.map { token =>

@@ -73,6 +73,6 @@ object Users extends Controller {
         case Success(u) => Ok(Json.toJson(u))
         case Failure(err) => BadRequest(err.getMessage)
       }
-    }.getOrElse(Future.successful(BadRequest("error")))
+    }.getOrElse(Future.successful(BadRequest("Invalid Json")))
   }
 }
