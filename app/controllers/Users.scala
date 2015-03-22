@@ -66,7 +66,9 @@ object Users extends Controller {
   }
 
   def create = Action.async(BodyParsers.parse.json) { implicit request =>
-    request.body.validate[User].map{ newUser =>
+    import play.api.Logger
+    val json = request.body \ "user"
+    json.validate[User].map{ newUser =>
       val (encryptedPass, salt) = oauth2.Crypto.encryptPassword(newUser.password)
       val encryptedUser = newUser.copy(password = encryptedPass)
       UserDAO.create(encryptedUser).map {
