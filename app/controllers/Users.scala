@@ -20,7 +20,7 @@ object Users extends Controller {
     (__ \ "firstName").write[String] and
     (__ \ "lastName").write[String] and
     (__ \ "email").write[String] and
-    (__ \ "password").write[String]/*.transform(x => JsString("")) */and
+    (__ \ "password").write[String] and
     (__ \ "rating").write[Int] and
     (__ \ "location").write[String] and
     (__ \ "shirtSize").write[String] and
