@@ -63,8 +63,7 @@ object Users extends Controller {
     }
   }
 
-  def create = Action.async(BodyParsers.parse.json) { implicit request =>
-    import play.api.Logger
+  def create = Action.async(parse.json) { implicit request =>
     val json = request.body \ "user"
     json.validate[User].map{ newUser =>
       val (encryptedPass, salt) = oauth2.Crypto.encryptPassword(newUser.password)
