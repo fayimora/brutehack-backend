@@ -15,7 +15,7 @@ GET     /api/contests/:id           controllers.Contests.show(id: Long)
 GET     /api/problems               controllers.Problems.showWithIds
 GET     /api/problems/:id           controllers.Problems.show(id: Long)
 
-GET     /api/user/:handle           controllers.Users.show(handle: String)
+GET     /api/users/:handle          controllers.Users.show(handle: String)
 GET     /api/users                  controllers.Users.index
 POST    /api/users                  controllers.Users.create
 
