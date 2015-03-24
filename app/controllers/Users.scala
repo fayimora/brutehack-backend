@@ -4,7 +4,7 @@ import play.api.mvc._
 import play.api.libs.json._
 import play.api.libs.functional.syntax._
 import models.{User, UserProfile}
-import dao.UserDAO
+import dao.{UserDAO, AccessTokenDAO}
 import scala.util.{Success, Failure}
 import java.sql.Timestamp
 import concurrent.Future
@@ -60,6 +60,21 @@ object Users extends Controller {
         case None => NotFound(Json.obj("error" -> s"$handle was not found"))
       }
       case Failure(err) => InternalServerError
+    }
+  }
+
+  def showByToken = Action.async { implicit request =>
+    val token = request.headers.get("Authorization").map(_.split(" ").last)getOrElse "**"
+
+    AccessTokenDAO.findAccessToken(token).flatMap{ optToken =>
+      optToken.map{ token =>
+        UserDAO.findById(token.userId).map{
+          case Success(userOpt) =>
+            userOpt.map(u => Ok(Json.toJson(u.profile))).getOrElse(NotFound("No user found for Authorization token!"))
+          case Failure(err) =>
+            InternalServerError("Problems were encountered while querying the database")
+        }
+      }.getOrElse(Future.successful(Unauthorized("Missing Authorization header")))
     }
   }
 
