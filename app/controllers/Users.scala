@@ -48,7 +48,7 @@ object Users extends Controller {
   def index = Action.async {
     UserDAO.list.map{ usersTry =>
       usersTry.map(users =>
-          Ok(Json.toJson(users.map(_.profile)))
+        Ok(Json.toJson(users.map(_.profile)))
       ).getOrElse(InternalServerError)
     }
   }
