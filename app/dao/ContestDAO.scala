@@ -11,7 +11,7 @@ object ContestDAO {
 
   val contests = TableQuery[models.database.Contests]
 
-  def all()(implicit ec: ExecutionContext) = Future {
+  def list(implicit ec: ExecutionContext) = Future {
     Try {
       DB.withSession { implicit session =>
         contests.list
@@ -19,10 +19,10 @@ object ContestDAO {
     }
   }
 
-  def findByID(id: Long)(implicit ec: ExecutionContext) = Future {
+  def findById(id: Long)(implicit ec: ExecutionContext) = Future {
     Try {
       DB.withSession { implicit session =>
-        val res = contests.filter(_.id === id).firstOption
+        contests.filter(_.id === id).firstOption
       }
     }
   }

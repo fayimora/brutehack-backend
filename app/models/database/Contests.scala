@@ -15,6 +15,6 @@ class Contests(tag: Tag) extends Table[Contest](tag, "contests") with Timestampe
   def titleIndex = index("contest_title", title, unique=true)
 
   def * = (title, author, description, startTime, duration, id.?, createdAt.?, updatedAt.?) <>
-  ((Contest.apply _).tupled, Contest.unapply)
+  (Contest.tupled, Contest.unapply)
 }
 
