@@ -11,6 +11,8 @@ object ContestDAO {
 
   val contests = TableQuery[models.database.Contests]
 
+  def autoInc = contests returning contests
+
   def list(implicit ec: ExecutionContext) = Future {
     Try {
       DB.withSession { implicit session =>
@@ -23,6 +25,14 @@ object ContestDAO {
     Try {
       DB.withSession { implicit session =>
         contests.filter(_.id === id).firstOption
+      }
+    }
+  }
+
+  def create(contest: Contest)(implicit ec: ExecutionContext) = Future {
+    Try {
+      DB.withSession{ implicit session =>
+        autoInc += contest
       }
     }
   }
