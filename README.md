@@ -1,6 +1,9 @@
 ### BruteHack Backend
 
 The backend for brutehack. It's a REST API. More info later
+NB: I will be re-writing this with [finatra](http://twitter.github.io/finatra/) and
+[scalikejdbc](http://scalikejdbc.org/) soon.
+
 Copyright (C) 2014 Fayimora Femi-Balogun
 
 Permission is hereby granted, free of charge, to any person obtaining

@@ -1,4 +1,4 @@
-name := """BruteHack"""
+name := "BruteHack"
 
 version := "0.0.1"
 
