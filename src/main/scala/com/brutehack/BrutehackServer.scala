@@ -1,5 +1,6 @@
 package com.brutehack
 
+import com.brutehack.controllers.{UsersController, BrutehackController}
 import com.twitter.finagle.httpx.{Request, Response}
 import com.twitter.finatra.http.HttpServer
 import com.twitter.finatra.http.filters.CommonFilters
@@ -18,6 +19,7 @@ class BrutehackServer extends HttpServer {
       .filter[TraceIdMDCFilter[Request, Response]]
       .filter[CommonFilters]
       .add[BrutehackController]
+      .add[UsersController]
   }
 }
 
