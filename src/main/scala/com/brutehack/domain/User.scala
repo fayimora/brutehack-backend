@@ -11,4 +11,6 @@ case class User(id: String,
                 password: String,
                 rating: Int,
                 location: String,
-                shirtSize: String)
+                shirtSize: String) {
+
+}
