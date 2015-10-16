@@ -28,6 +28,7 @@ libraryDependencies ++= Seq(
   "com.twitter" %% "bijection-util" % "0.8.1",
   "com.github.racc" % "typesafeconfig-guice" % "0.0.1",
   "com.typesafe" % "config" % "1.3.0",
+  "joda-time" % "joda-time" % "2.8.2",
   "com.twitter.finatra" %% "finatra-http" % versions.finatra % "test",
   "com.twitter.inject" %% "inject-server" % versions.finatra % "test",
   "com.twitter.inject" %% "inject-app" % versions.finatra % "test",
