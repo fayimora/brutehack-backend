@@ -1,4 +1,4 @@
-package com.brutehack
+package com.brutehack.controllers
 
 import com.twitter.finagle.httpx.Request
 import com.twitter.finatra.http.Controller
