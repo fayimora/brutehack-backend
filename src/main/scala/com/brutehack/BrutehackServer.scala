@@ -1,6 +1,6 @@
 package com.brutehack
 
-import com.brutehack.controllers.{UsersController, BrutehackController}
+import com.brutehack.controllers.{ContestsController, UsersController, BrutehackController}
 import com.twitter.finagle.httpx.{Request, Response}
 import com.twitter.finatra.http.HttpServer
 import com.twitter.finatra.http.filters.CommonFilters
@@ -20,6 +20,7 @@ class BrutehackServer extends HttpServer {
       .filter[CommonFilters]
       .add[BrutehackController]
       .add[UsersController]
+      .add[ContestsController]
   }
 }
 
