@@ -28,17 +28,18 @@ class UsersService @Inject()(
     def apply(sp: SyntaxProvider[User])(rs: WrappedResultSet): User =
       apply(sp.resultName)(rs)
 
-    def apply(e: ResultName[User])(rs: WrappedResultSet): User = new User(
-      id = rs.string(e.id),
-      handle = rs.string(e.handle),
-      password = rs.string(e.password),
-      email = rs.string(e.email),
-      firstName = rs.string(e.firstName),
-      lastName = rs.string(e.lastName),
-      rating = rs.int(e.rating),
-      shirtSize = rs.string(e.shirtSize),
-      location = rs.string(e.location)
-    )
+    def apply(e: ResultName[User])(rs: WrappedResultSet): User =
+      new User(
+        id = rs.string(e.id),
+        handle = rs.string(e.handle),
+        password = rs.string(e.password),
+        email = rs.string(e.email),
+        firstName = rs.string(e.firstName),
+        lastName = rs.string(e.lastName),
+        rating = rs.int(e.rating),
+        shirtSize = rs.string(e.shirtSize),
+        location = rs.string(e.location)
+      )
   }
 
   val usersSyntax = User.syntax
