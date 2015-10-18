@@ -65,7 +65,7 @@ class UsersService @Inject()(
 
   def update()(implicit ec: ExecutionContext): Future[Unit] = Future(())
 
-  def save()(implicit ec: ExecutionContext): Future[Unit] = Future(())
+  def save(user: User)(implicit ec: ExecutionContext): Future[Int] = Future(1)
 
   def delete(handle: String)(implicit ec: ExecutionContext): Future[Int] = Future {
     withSQL {
