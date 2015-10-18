@@ -59,5 +59,9 @@ class UsersService @Inject()(
 
   def save()(implicit ec: ExecutionContext): Future[Unit] = Future(())
 
-  def delete()(implicit ec: ExecutionContext): Future[Unit] = Future(())
+  def delete(handle: String)(implicit ec: ExecutionContext): Future[Int] = Future {
+    withSQL {
+      deleteFrom(User).where.eq(User.column.handle, handle)
+    }.update().apply()
+  }
 }
