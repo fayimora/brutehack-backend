@@ -67,7 +67,7 @@ class ContestsService @Inject()(
 
   def save()(implicit ec: ExecutionContext): Future[Unit] = Future(())
 
-  def delete(id: String)(implicit ec: ExecutionContext): Future[Unit] = Future {
+  def delete(id: String)(implicit ec: ExecutionContext): Future[Int] = Future {
     withSQL {
       deleteFrom(Contest).where.eq(Contest.column.id, id)
     }.update().apply()
