@@ -49,6 +49,7 @@ class UsersController @Inject()(usersService: UsersService) extends Controller {
   delete("/users/:handle") { req: Request =>
     val handle = req.getParam("handle")
     val fut = usersService.delete(handle)
+    twitter2ScalaFuture[Int].invert(fut).map{ i => response.noContent }
   }
 
 }
