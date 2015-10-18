@@ -1,13 +1,15 @@
 package com.brutehack.controllers
 
 import javax.inject.Inject
+
 import com.brutehack.Crypto
-import com.brutehack.domain.http.PostUserRequest
-import com.twitter.bijection.twitter_util.UtilBijections.twitter2ScalaFuture
 import com.brutehack.domain.User
+import com.brutehack.domain.http.{UserResponse, PostUserRequest}
 import com.brutehack.services.UsersService
+import com.twitter.bijection.twitter_util.UtilBijections.twitter2ScalaFuture
 import com.twitter.finagle.httpx.Request
 import com.twitter.finatra.http.Controller
+
 import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
@@ -32,8 +34,8 @@ class UsersController @Inject()(usersService: UsersService) extends Controller {
     val user = encryptedUser.toDomain(userId)
     val fut = usersService.save(user)
     twitter2ScalaFuture[Int].invert(fut).map{ i =>
-      // TODO: use a domain filter to hide private details
-      response.created(user).location(user.handle)
+      val responseUser = UserResponse.fromDomain(user)
+      response.created(responseUser).location(responseUser.handle)
     }
   }
 
