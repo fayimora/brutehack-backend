@@ -28,13 +28,17 @@ class UsersController @Inject()(usersService: UsersService) extends Controller {
   }
 
   post("/users") { postUser: PostUserRequest =>
+    debug(s"postUser: $postUser")
     val (encryptedPassword, salt) = Crypto.encryptPassword(postUser.password)
     val encryptedUser = postUser.copy(password = encryptedPassword)
+    debug(s"encryptedUser: $encryptedUser")
     val userId = java.util.UUID.randomUUID().toString
     val user = encryptedUser.toDomain(userId)
+    debug(s"user: $user")
     val fut = usersService.save(user)
     twitter2ScalaFuture[Int].invert(fut).map{ i =>
       val responseUser = UserResponse.fromDomain(user)
+      debug(s"responseUser: $responseUser")
       response.created(responseUser).location(responseUser.handle)
     }
   }
