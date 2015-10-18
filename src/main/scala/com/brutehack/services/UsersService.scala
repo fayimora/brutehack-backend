@@ -45,11 +45,19 @@ class UsersService @Inject()(
   val usersSyntax = User.syntax
 
   def all()(implicit ec : ExecutionContext): Future[Seq[User]] = Future {
-    Seq(new User("","","","","","",0,"",""))
+    DB readOnly { implicit session =>
+      withSQL {
+        selectFrom(User as usersSyntax)
+      }.map(User(usersSyntax)).list().apply()
+    }
   }
 
   def findBy(field: String)(value: String)(implicit ec: ExecutionContext): Future[Option[User]] = Future {
-    Option(new User("", "", "", "", "", "", 0, "", ""))
+    DB readOnly { implicit session =>
+      withSQL {
+        selectFrom(User as usersSyntax).where.eq(usersSyntax.column(field), value)
+      }.map(User(usersSyntax)).toOption().apply()
+    }
   }
 
   def findById(id: String)(implicit ec: ExecutionContext): Future[Option[User]] =
