@@ -34,11 +34,11 @@ class UsersService @Inject()(
         handle = rs.string(e.handle),
         password = rs.string(e.password),
         email = rs.string(e.email),
-        firstName = rs.string(e.firstName),
-        lastName = rs.string(e.lastName),
+        firstName = rs.stringOpt(e.firstName),
+        lastName = rs.stringOpt(e.lastName),
         rating = rs.int(e.rating),
-        shirtSize = rs.string(e.shirtSize),
-        location = rs.string(e.location)
+        shirtSize = rs.stringOpt(e.shirtSize),
+        location = rs.stringOpt(e.location)
       )
   }
 
