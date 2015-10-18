@@ -45,11 +45,19 @@ class ContestsService @Inject()(
   val contestsSyntax = Contest.syntax
 
   def all()(implicit ec: ExecutionContext): Future[Seq[Contest]] = Future {
-    Seq(new Contest("", "", "", "",None,"",None,None))
+    DB readOnly { implicit session =>
+      withSQL {
+        selectFrom(Contest as contestsSyntax)
+      }.map(Contest(contestsSyntax)).list().apply()
+    }
   }
 
   def findBy(field: String)(value: String)(implicit ec: ExecutionContext): Future[Option[Contest]] = Future {
-    Option(new Contest("", "", "", "", None, "", None, None))
+    DB readOnly { implicit session =>
+      withSQL {
+        selectFrom(Contest as contestsSyntax).where.eq(contestsSyntax.column(field), value)
+      }.map(Contest(contestsSyntax)).toOption().apply()
+    }
   }
 
   def findById(id: String)(implicit ec: ExecutionContext): Future[Option[Contest]] =
@@ -59,5 +67,9 @@ class ContestsService @Inject()(
 
   def save()(implicit ec: ExecutionContext): Future[Unit] = Future(())
 
-  def delete()(implicit ec: ExecutionContext): Future[Unit] = Future(())
+  def delete(id: String)(implicit ec: ExecutionContext): Future[Unit] = Future {
+    withSQL {
+      deleteFrom(Contest).where.eq(Contest.column.id, id)
+    }.update().apply()
+  }
 }
