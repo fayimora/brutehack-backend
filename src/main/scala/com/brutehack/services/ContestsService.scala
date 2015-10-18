@@ -33,7 +33,7 @@ class ContestsService @Inject()(
       new Contest(
         id = rs.string(e.id),
         title = rs.string(e.title),
-        author = rs.string(e.author),
+        authorId = rs.string(e.authorId),
         description = rs.string(e.description),
         startTime = rs.jodaDateTimeOpt(e.startTime),
         duration = rs.string(e.duration),

@@ -7,7 +7,7 @@ import org.joda.time.DateTime
  */
 case class Contest(id: String,
                    title: String,
-                   author: String,
+                   authorId: String,
                    description: String,
                    startTime: Option[DateTime],
                    duration: String,
