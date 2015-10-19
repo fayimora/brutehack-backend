@@ -38,4 +38,9 @@ class ContestsController @Inject()(contestsService: ContestsService) extends Con
     twitter2ScalaFuture[Int].invert(fut).map{ i => response.noContent }
   }
 
+  post("/contests/:id/publish") { req: Request =>
+    // TODO: Do something to publish the contest
+    response.notImplemented
+  }
+
 }
