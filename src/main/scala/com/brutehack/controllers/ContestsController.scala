@@ -3,6 +3,7 @@ package com.brutehack.controllers
 import javax.inject.Inject
 
 import com.brutehack.domain.Contest
+import com.brutehack.domain.http.{PostContestRequest, GetContestRequest}
 import com.twitter.bijection.twitter_util.UtilBijections._
 import com.brutehack.services.ContestsService
 import com.twitter.finagle.httpx.Request
@@ -18,13 +19,12 @@ class ContestsController @Inject()(contestsService: ContestsService) extends Con
     twitter2ScalaFuture[Seq[Contest]].invert(fut)
   }
 
-  get("/contests/:id") { req: Request =>
-    val id = req.getParam("id")
-    val fut = contestsService.findById(id)
+  get("/contests/:id") { req: GetContestRequest =>
+    val fut = contestsService.findById(req.id)
     twitter2ScalaFuture[Option[Contest]].invert(fut)
   }
 
-  post("/contests") { req: Request =>
+  post("/contests") { req: PostContestRequest =>
     response.notImplemented
   }
 
