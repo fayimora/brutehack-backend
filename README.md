@@ -2,7 +2,7 @@
 
 The backend for brutehack. It's a REST API. More info later
 
-NB: I will be re-writing this with [finatra](http://twitter.github.io/finatra/) and
+NB: I am re-writing this with [finatra](http://twitter.github.io/finatra/) and
 [scalikejdbc](http://scalikejdbc.org/) soon. Please see the
 [play branch](https://github.com/fayimora/brutehack-backend/tree/play) for the
 Play Framework version.
