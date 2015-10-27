@@ -7,7 +7,7 @@ NB: I am re-writing this with [finatra](http://twitter.github.io/finatra/) and
 [play branch](https://github.com/fayimora/brutehack-backend/tree/play) for the
 Play Framework version.
 
-Copyright (C) 2014 Fayimora Femi-Balogun
+Copyright (C) 2015 Fayimora Femi-Balogun
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the "Software"),
