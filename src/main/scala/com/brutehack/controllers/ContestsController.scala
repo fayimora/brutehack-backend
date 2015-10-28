@@ -39,7 +39,7 @@ class ContestsController @Inject()(contestsService: ContestsService) extends Con
   }
 
   post("/contests/:id/publish") { req: PublishContestRequest =>
-    // TODO: Do something to publish the contest
+    // TODO: Do something to publish the contest. Perhaps notify everyone registered for the contest
     response.notImplemented
   }
 
