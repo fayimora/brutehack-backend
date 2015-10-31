@@ -15,7 +15,7 @@ javaOptions in run ++= Seq("-Dconfig.file=src/main/resources/conf/development.co
 javaOptions in (Test, test) ++= Seq("-Dconfig.file=src/main/resources/conf/development.conf")
 
 val versions = new {
-  val finatra = "2.1.0"
+  val finatra = "2.1.1"
 }
 
 libraryDependencies ++= Seq(

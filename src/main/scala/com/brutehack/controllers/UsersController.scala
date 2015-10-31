@@ -7,7 +7,7 @@ import com.brutehack.domain.User
 import com.brutehack.domain.http.{GetUserRequest, UserResponse, PostUserRequest}
 import com.brutehack.services.UsersService
 import com.twitter.bijection.twitter_util.UtilBijections.twitter2ScalaFuture
-import com.twitter.finagle.httpx.Request
+import com.twitter.finagle.http.Request
 import com.twitter.finatra.http.Controller
 
 import scala.concurrent.ExecutionContext.Implicits.global

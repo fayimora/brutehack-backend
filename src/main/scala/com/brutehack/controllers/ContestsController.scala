@@ -6,7 +6,7 @@ import com.brutehack.domain.Contest
 import com.brutehack.domain.http.{PublishContestRequest, PostContestRequest, GetContestRequest}
 import com.twitter.bijection.twitter_util.UtilBijections._
 import com.brutehack.services.ContestsService
-import com.twitter.finagle.httpx.Request
+import com.twitter.finagle.http.Request
 import com.twitter.finatra.http.Controller
 import scala.concurrent.ExecutionContext.Implicits.global
 
