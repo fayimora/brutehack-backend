@@ -4,7 +4,7 @@ import javax.inject.Inject
 
 import com.brutehack.Crypto
 import com.brutehack.domain.User
-import com.brutehack.domain.http.{GetUserRequest, UserResponse, PostUserRequest}
+import com.brutehack.domain.http.{DeleteUserRequest, GetUserRequest, UserResponse, PostUserRequest}
 import com.brutehack.services.UsersService
 import com.twitter.bijection.twitter_util.UtilBijections.twitter2ScalaFuture
 import com.twitter.finagle.http.Request
@@ -46,9 +46,8 @@ class UsersController @Inject()(usersService: UsersService) extends Controller {
     response.notImplemented
   }
 
-  delete("/users/:handle") { req: Request =>
-    val handle = req.getParam("handle")
-    val fut = usersService.delete(handle)
+  delete("/users/:handle") { req: DeleteUserRequest =>
+    val fut = usersService.delete(req.handle)
     twitter2ScalaFuture[Int].invert(fut).map{ i => response.noContent }
   }
 
