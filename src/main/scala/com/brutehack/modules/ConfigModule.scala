@@ -1,3 +1,5 @@
+package com.brutehack.modules
+
 import com.github.racc.tscg.TypesafeConfigModule
 import com.twitter.inject.{Logging, TwitterModule}
 import com.typesafe.config.ConfigFactory
