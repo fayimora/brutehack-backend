@@ -1,6 +1,6 @@
 package com.brutehack
 
-import com.brutehack.controllers.{ContestsController, UsersController, BrutehackController}
+import com.brutehack.controllers.{ContestsController, UsersController, IndexController}
 import com.brutehack.modules.ConfigModule
 import com.twitter.finagle.http.{Request, Response}
 import com.twitter.finatra.http.HttpServer
@@ -19,7 +19,7 @@ class IndexServer extends HttpServer {
       .filter[LoggingMDCFilter[Request, Response]]
       .filter[TraceIdMDCFilter[Request, Response]]
       .filter[CommonFilters]
-      .add[BrutehackController]
+      .add[IndexController]
       .add[UsersController]
       .add[ContestsController]
   }
