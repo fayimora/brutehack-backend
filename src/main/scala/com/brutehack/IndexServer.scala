@@ -9,9 +9,9 @@ import com.twitter.finatra.http.routing.HttpRouter
 import com.twitter.finatra.logging.filter.{LoggingMDCFilter, TraceIdMDCFilter}
 import com.twitter.finatra.logging.modules.Slf4jBridgeModule
 
-object BrutehackServerMain extends BrutehackServer
+object IndexServerMain extends IndexServer
 
-class BrutehackServer extends HttpServer {
+class IndexServer extends HttpServer {
   override def modules = Seq(Slf4jBridgeModule, ConfigModule)
 
   override def configureHttp(router: HttpRouter): Unit = {
