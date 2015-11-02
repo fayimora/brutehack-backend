@@ -48,7 +48,9 @@ class UsersController @Inject()(usersService: UsersService) extends Controller {
 
   delete("/users/:handle") { req: DeleteUserRequest =>
     val fut = usersService.delete(req.handle)
-    twitter2ScalaFuture[Int].invert(fut).map{ i => response.noContent }
+    twitter2ScalaFuture[Int].invert(fut).map{ rowsAffected =>
+      if(rowsAffected == 1) response.noContent else response.internalServerError
+    }
   }
 
 }
