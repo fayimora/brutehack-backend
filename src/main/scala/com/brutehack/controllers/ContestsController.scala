@@ -28,11 +28,11 @@ class ContestsController @Inject()(contestsService: ContestsService) extends Con
     response.notImplemented
   }
 
-  patch("/contests/:handle") { req: Request =>
+  patch("/contests/:id") { req: Request =>
     response.notImplemented
   }
 
-  delete("/contests/:handle") { req: Request =>
+  delete("/contests/:id") { req: Request =>
     val id = req.getParam("id")
     val fut = contestsService.delete(id)
     twitter2ScalaFuture[Int].invert(fut).map{ i => response.noContent }
