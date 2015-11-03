@@ -35,10 +35,12 @@ class UsersController @Inject()(usersService: UsersService) extends Controller {
     val user = encryptedUser.toDomain(userId)
     debug(s"user: $user")
     val fut = usersService.save(user)
-    twitter2ScalaFuture[Int].invert(fut).map{ i =>
-      val responseUser = UserResponse.fromDomain(user)
-      debug(s"responseUser: $responseUser")
-      response.created(responseUser).location(responseUser.handle)
+    twitter2ScalaFuture[Int].invert(fut).map{ rowsAffected =>
+      if(rowsAffected == 1) {
+        val responseUser = UserResponse.fromDomain(user)
+        debug(s"responseUser: $responseUser")
+        response.created(responseUser).location(responseUser.handle)
+      } else response.internalServerError
     }
   }
 
