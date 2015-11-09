@@ -65,7 +65,20 @@ class ContestsService @Inject()(
 
   def update()(implicit ec: ExecutionContext): Future[Unit] = Future(())
 
-  def save()(implicit ec: ExecutionContext): Future[Unit] = Future(())
+  def save(contest: Contest)(implicit ec: ExecutionContext): Future[Unit] = Future{
+    DB localTx { implicit session =>
+      withSQL {
+        val col = Contest.column
+        insertInto(Contest).namedValues(
+          col.id -> contest.id,
+          col.title -> contest.title,
+          col.description -> contest.description,
+          col.startTime -> contest.startTime,
+          col.duration -> contest.duration
+        )
+      }.update().apply()
+    }
+  }
 
   def delete(id: String)(implicit ec: ExecutionContext): Future[Int] = Future {
     withSQL {
