@@ -44,13 +44,11 @@ class ContestsService @Inject()(
 
   val contestsSyntax = Contest.syntax
 
-  def all()(implicit ec: ExecutionContext): Future[Seq[Contest]] = Future {
-    DB readOnly { implicit session =>
+  def all(): Seq[Contest] = DB readOnly { implicit session =>
       withSQL {
         selectFrom(Contest as contestsSyntax)
       }.map(Contest(contestsSyntax)).list().apply()
     }
-  }
 
   def findBy(field: String)(value: String)(implicit ec: ExecutionContext): Future[Option[Contest]] = Future {
     DB readOnly { implicit session =>

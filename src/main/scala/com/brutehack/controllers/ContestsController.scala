@@ -15,8 +15,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
  */
 class ContestsController @Inject()(contestsService: ContestsService) extends Controller {
   get("/contests") { req: Request =>
-    val fut = contestsService.all()
-    twitter2ScalaFuture[Seq[Contest]].invert(fut)
+    contestsService.all()
   }
 
   get("/contests/:id") { req: GetContestRequest =>
