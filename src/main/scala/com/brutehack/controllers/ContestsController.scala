@@ -19,8 +19,7 @@ class ContestsController @Inject()(contestsService: ContestsService) extends Con
   }
 
   get("/contests/:id") { req: GetContestRequest =>
-    val fut = contestsService.findById(req.id)
-    twitter2ScalaFuture[Option[Contest]].invert(fut)
+    contestsService.findById(req.id)
   }
 
   post("/contests") { req: PostContestRequest =>

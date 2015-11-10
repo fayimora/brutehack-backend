@@ -50,7 +50,7 @@ class ContestsService @Inject()(
       }.map(Contest(contestsSyntax)).list().apply()
     }
 
-  def findBy(field: String)(value: String)(implicit ec: ExecutionContext): Future[Option[Contest]] = Future {
+  def findBy(field: String)(value: String): Option[Contest] = {
     DB readOnly { implicit session =>
       withSQL {
         selectFrom(Contest as contestsSyntax).where.eq(contestsSyntax.column(field), value)
@@ -58,7 +58,7 @@ class ContestsService @Inject()(
     }
   }
 
-  def findById(id: String)(implicit ec: ExecutionContext): Future[Option[Contest]] =
+  def findById(id: String): Option[Contest] =
     findBy("id")(id)
 
   def update()(implicit ec: ExecutionContext): Future[Unit] = Future(())
