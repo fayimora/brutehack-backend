@@ -32,8 +32,8 @@ class ContestsController @Inject()(contestsService: ContestsService) extends Con
 
   delete("/contests/:id") { req: Request =>
     val id = req.getParam("id")
-    val fut = contestsService.delete(id)
-    twitter2ScalaFuture[Int].invert(fut).map{ i => response.noContent }
+    val rowsAffected = contestsService.delete(id)
+    if(rowsAffected == 1) response.noContent else response.internalServerError
   }
 
   post("/contests/:id/publish") { req: PublishContestRequest =>

@@ -61,7 +61,7 @@ class ContestsService @Inject()(
   def findById(id: String): Option[Contest] =
     findBy("id")(id)
 
-  def update()(implicit ec: ExecutionContext): Future[Unit] = Future(())
+  def update(): Unit = ()
 
   def save(contest: Contest)(implicit ec: ExecutionContext): Future[Unit] = Future{
     DB localTx { implicit session =>
@@ -78,7 +78,7 @@ class ContestsService @Inject()(
     }
   }
 
-  def delete(id: String)(implicit ec: ExecutionContext): Future[Int] = Future {
+  def delete(id: String): Int = {
     withSQL {
       deleteFrom(Contest).where.eq(Contest.column.id, id)
     }.update().apply()
