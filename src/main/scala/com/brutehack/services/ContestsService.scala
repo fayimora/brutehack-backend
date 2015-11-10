@@ -63,7 +63,7 @@ class ContestsService @Inject()(
 
   def update(): Unit = ()
 
-  def save(contest: Contest)(implicit ec: ExecutionContext): Future[Unit] = Future{
+  def save(contest: Contest): Int = {
     DB localTx { implicit session =>
       withSQL {
         val col = Contest.column
