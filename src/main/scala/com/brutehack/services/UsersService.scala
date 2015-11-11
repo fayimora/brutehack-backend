@@ -44,7 +44,7 @@ class UsersService @Inject()(
 
   val usersSyntax = User.syntax
 
-  def all()(implicit ec : ExecutionContext): Future[Seq[User]] = Future {
+  def all(): Seq[User] = {
     DB readOnly { implicit session =>
       withSQL {
         selectFrom(User as usersSyntax)

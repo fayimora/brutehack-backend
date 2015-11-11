@@ -17,8 +17,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
  */
 class UsersController @Inject()(usersService: UsersService) extends Controller {
   get("/users") { req: Request =>
-    val fut = usersService.all()
-    twitter2ScalaFuture[Seq[User]].invert(fut)
+    usersService.all()
   }
 
   get("/users/:handle") { req: GetUserRequest =>
