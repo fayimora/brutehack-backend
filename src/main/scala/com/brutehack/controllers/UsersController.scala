@@ -32,14 +32,13 @@ class UsersController @Inject()(usersService: UsersService) extends Controller {
     val userId = java.util.UUID.randomUUID().toString
     val user = encryptedUser.toDomain(userId)
     debug(s"user: $user")
-    val fut = usersService.save(user)
-    twitter2ScalaFuture[Int].invert(fut).map{ rowsAffected =>
-      if(rowsAffected == 1) {
-        val responseUser = UserResponse.fromDomain(user)
-        debug(s"responseUser: $responseUser")
-        response.created(responseUser).location(responseUser.handle)
-      } else response.internalServerError
-    }
+
+    val rowsAffected = usersService.save(user)
+    if(rowsAffected == 1) {
+      val responseUser = UserResponse.fromDomain(user)
+      debug(s"responseUser: $responseUser")
+      response.created(responseUser).location(responseUser.handle)
+    } else response.internalServerError
   }
 
   patch("/users/:handle") { req: Request =>
@@ -47,10 +46,8 @@ class UsersController @Inject()(usersService: UsersService) extends Controller {
   }
 
   delete("/users/:handle") { req: DeleteUserRequest =>
-    val fut = usersService.delete(req.handle)
-    twitter2ScalaFuture[Int].invert(fut).map{ rowsAffected =>
-      if(rowsAffected == 1) response.noContent else response.internalServerError
-    }
+    val rowsAffected = usersService.delete(req.handle)
+    if(rowsAffected == 1) response.noContent else response.internalServerError
   }
 
 }

@@ -62,11 +62,11 @@ class UsersService @Inject()(
 
   def findById(id: String): Option[User] = findBy("id")(id)
 
-  def update()(implicit ec: ExecutionContext): Future[Unit] = Future(())
+  def update() = ()
 
-  def save(user: User)(implicit ec: ExecutionContext): Future[Int] = Future(1)
+  def save(user: User): Int = 1
 
-  def delete(handle: String)(implicit ec: ExecutionContext): Future[Int] = Future {
+  def delete(handle: String): Int = {
     withSQL {
       deleteFrom(User).where.eq(User.column.handle, handle)
     }.update().apply()
