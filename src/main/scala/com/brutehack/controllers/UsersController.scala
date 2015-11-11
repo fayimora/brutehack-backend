@@ -21,8 +21,7 @@ class UsersController @Inject()(usersService: UsersService) extends Controller {
   }
 
   get("/users/:handle") { req: GetUserRequest =>
-    val fut = usersService.findById(req.handle)
-    twitter2ScalaFuture[Option[User]].invert(fut)
+    usersService.findById(req.handle)
   }
 
   post("/users") { postUser: PostUserRequest =>

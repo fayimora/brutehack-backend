@@ -52,7 +52,7 @@ class UsersService @Inject()(
     }
   }
 
-  def findBy(field: String)(value: String)(implicit ec: ExecutionContext): Future[Option[User]] = Future {
+  def findBy(field: String)(value: String): Option[User] = {
     DB readOnly { implicit session =>
       withSQL {
         selectFrom(User as usersSyntax).where.eq(usersSyntax.column(field), value)
@@ -60,8 +60,7 @@ class UsersService @Inject()(
     }
   }
 
-  def findById(id: String)(implicit ec: ExecutionContext): Future[Option[User]] =
-    findBy("id")(id)
+  def findById(id: String): Option[User] = findBy("id")(id)
 
   def update()(implicit ec: ExecutionContext): Future[Unit] = Future(())
 
