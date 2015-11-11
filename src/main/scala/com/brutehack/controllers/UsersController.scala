@@ -3,14 +3,10 @@ package com.brutehack.controllers
 import javax.inject.Inject
 
 import com.brutehack.Crypto
-import com.brutehack.domain.User
 import com.brutehack.domain.http.{DeleteUserRequest, GetUserRequest, UserResponse, PostUserRequest}
 import com.brutehack.services.UsersService
-import com.twitter.bijection.twitter_util.UtilBijections.twitter2ScalaFuture
 import com.twitter.finagle.http.Request
 import com.twitter.finatra.http.Controller
-
-import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
  * Created by fayimora on 16/10/2015.

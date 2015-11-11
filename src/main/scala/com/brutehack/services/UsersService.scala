@@ -7,8 +7,6 @@ import com.github.racc.tscg.TypesafeConfig
 import com.twitter.inject.Logging
 import scalikejdbc._
 
-import scala.concurrent.{ExecutionContext, Future}
-
 /**
  * Created by fayimora on 16/10/2015.
  */
