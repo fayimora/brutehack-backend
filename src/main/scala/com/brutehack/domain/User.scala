@@ -5,12 +5,10 @@ package com.brutehack.domain
  */
 case class User(id: String,
                 handle: String,
-                firstName: Option[String],
-                lastName: Option[String],
                 email: String,
                 password: String,
                 rating: Int,
+                firstName: Option[String],
+                lastName: Option[String],
                 location: Option[String],
-                shirtSize: Option[String]) {
-
-}
+                shirtSize: Option[String])
