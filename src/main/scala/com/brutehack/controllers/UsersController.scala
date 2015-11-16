@@ -3,7 +3,7 @@ package com.brutehack.controllers
 import javax.inject.Inject
 
 import com.brutehack.Crypto
-import com.brutehack.domain.http.{DeleteUserRequest, GetUserRequest, UserResponse, PostUserRequest}
+import com.brutehack.domain.http._
 import com.brutehack.services.UsersService
 import com.twitter.finagle.http.Request
 import com.twitter.finatra.http.Controller
@@ -35,6 +35,17 @@ class UsersController @Inject()(usersService: UsersService) extends Controller {
       debug(s"responseUser: $responseUser")
       response.created(responseUser).location(responseUser.handle)
     } else response.internalServerError
+  }
+
+  post("/users/login") { req: LoginRequest =>
+    val userOpt = usersService.findBy("handle")(req.handle)
+    userOpt match {
+      case Some(u) =>
+        val encryptedPass = Crypto.encryptPassword(req.password)._1
+        if(encryptedPass == u.password) response.ok else response.unauthorized("invalid username/password")
+      case None => response.unauthorized
+    }
+
   }
 
   patch("/users/:handle") { req: Request =>
