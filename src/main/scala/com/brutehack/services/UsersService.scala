@@ -20,7 +20,7 @@ class UsersService @Inject()(
   ConnectionPool.singleton(dbUrl, dbUser, dbPassword)
   implicit val session = AutoSession
 
-  object User extends SQLSyntaxSupport[User] {
+  object UserDB extends SQLSyntaxSupport[User] {
     override def tableName = "users"
 
     def apply(sp: SyntaxProvider[User])(rs: WrappedResultSet): User =
@@ -40,21 +40,21 @@ class UsersService @Inject()(
       )
   }
 
-  val usersSyntax = User.syntax
+  val usersSyntax = UserDB.syntax
 
   def all(): Seq[User] = {
     DB readOnly { implicit session =>
       withSQL {
-        selectFrom(User as usersSyntax)
-      }.map(User(usersSyntax)).list().apply()
+        selectFrom(UserDB as usersSyntax)
+      }.map(UserDB(usersSyntax)).list().apply()
     }
   }
 
   def findBy(field: String)(value: String): Option[User] = {
     DB readOnly { implicit session =>
       withSQL {
-        selectFrom(User as usersSyntax).where.eq(usersSyntax.column(field), value)
-      }.map(User(usersSyntax)).toOption().apply()
+        selectFrom(UserDB as usersSyntax).where.eq(usersSyntax.column(field), value)
+      }.map(UserDB(usersSyntax)).toOption().apply()
     }
   }
 
@@ -66,7 +66,7 @@ class UsersService @Inject()(
 
   def delete(handle: String): Int = {
     withSQL {
-      deleteFrom(User).where.eq(User.column.handle, handle)
+      deleteFrom(UserDB).where.eq(UserDB.column.handle, handle)
     }.update().apply()
   }
 }
