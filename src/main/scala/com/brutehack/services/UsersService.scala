@@ -62,7 +62,24 @@ class UsersService @Inject()(
 
   def update() = ()
 
-  def save(user: User): Int = 1
+  def save(user: User): Int = {
+    DB localTx { implicit session =>
+      withSQL {
+        val col = UserDB.column
+        insertInto(UserDB).namedValues(
+          col.id -> user.id,
+          col.handle -> user.handle,
+          col.password -> user.password,
+          col.email -> user.email,
+          col.firstName -> user.firstName,
+          col.lastName -> user.lastName,
+          col.rating -> user.rating,
+          col.shirtSize -> user.shirtSize,
+          col.location -> user.location
+        )
+      }.update().apply()
+    }
+  }
 
   def delete(handle: String): Int = {
     withSQL {
