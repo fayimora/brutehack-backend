@@ -3,6 +3,7 @@ package com.brutehack.services
 import javax.inject.Inject
 
 import com.brutehack.domain.User
+import com.brutehack.domain.http.PatchUserRequest
 import com.github.racc.tscg.TypesafeConfig
 import com.twitter.inject.Logging
 import scalikejdbc._
@@ -60,7 +61,44 @@ class UsersService @Inject()(
 
   def findById(id: String): Option[User] = findBy("id")(id)
 
-  def update() = ()
+  def updateUser(patchedUser: PatchUserRequest): Int = {
+
+    def getUpdatedUser(user: User) = User(
+      id = user.id,
+      handle = patchedUser.newHandle.getOrElse(user.handle),
+      email = patchedUser.email.getOrElse(user.email),
+      password = user.password,
+      rating = user.rating,
+      firstName = patchedUser.firstName,
+      lastName = patchedUser.lastName,
+      shirtSize = patchedUser.shirtSize,
+      location = patchedUser.location
+    )
+
+    def getUpdateTuples(user: User, col: ColumnName[User]) = Seq(
+      col.handle -> user.handle,
+      col.email -> user.email,
+      col.password -> user.password,
+      col.rating -> user.rating,
+      col.firstName -> user.firstName,
+      col.lastName -> user.lastName,
+      col.shirtSize -> user.shirtSize,
+      col.location -> user.location
+    )
+
+    val userOpt = findBy("username")(patchedUser.handle)
+    val affectedRows = userOpt.fold(0){ existingUser =>
+      val updatedUser = getUpdatedUser(existingUser)
+      DB localTx { implicit session =>
+        withSQL {
+          val col = UserDB.column
+          val tups = getUpdateTuples(updatedUser, col)
+          update(UserDB).set(tups:_*).where.eq(col.c("id"), existingUser.id)
+        }.update().apply()
+      }
+    }
+    affectedRows
+  }
 
   def save(user: User): Int = {
     DB localTx { implicit session =>
