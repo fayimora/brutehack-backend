@@ -1,5 +1,7 @@
 ### BruteHack Backend
 
+[![Circle CI](https://circleci.com/gh/fayimora/brutehack-backend.svg?style=svg)](https://circleci.com/gh/fayimora/brutehack-backend)
+
 The backend for brutehack. It's a REST API. More info later
 
 NB: I am re-writing this with [finatra](http://twitter.github.io/finatra/) and
