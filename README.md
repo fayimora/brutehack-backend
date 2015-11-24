@@ -1,4 +1,4 @@
-### BruteHack Backend
+### BruteHack-Backend
 
 [![Circle CI](https://circleci.com/gh/fayimora/brutehack-backend.svg?style=svg)](https://circleci.com/gh/fayimora/brutehack-backend)
 
