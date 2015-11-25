@@ -75,7 +75,7 @@ flywayUser := "bhdev"
 
 enablePlugins(JavaServerAppPackaging)
 
-// enablePlugins(JDebPackaging)
+enablePlugins(JDebPackaging)
 
-enablePlugins(DebianPlugin)
+// enablePlugins(DebianPlugin)
 
