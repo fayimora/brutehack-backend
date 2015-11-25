@@ -1,5 +1,11 @@
 name := "BruteHack"
 
+maintainer := "Fayimora <fayi@fayimora.com>"
+
+packageSummary := "BruteHack Backend Package"
+
+packageDescription := "The backend for Brutehack"
+
 organization := "com.brutehack"
 
 version := "0.0.1"
