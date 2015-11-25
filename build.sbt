@@ -12,6 +12,8 @@ version := "0.0.1"
 
 scalaVersion := "2.11.7"
 
+linuxPackageMappings in Debian := linuxPackageMappings.value
+
 fork in run := true
 
 fork in Test := true
@@ -73,5 +75,7 @@ flywayUser := "bhdev"
 
 enablePlugins(JavaServerAppPackaging)
 
-enablePlugins(JDebPackaging)
+// enablePlugins(JDebPackaging)
+
+enablePlugins(DebianPlugin)
 
