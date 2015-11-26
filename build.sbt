@@ -73,9 +73,5 @@ flywayUrl := "jdbc:postgresql://localhost:5432/brutehack"
 
 flywayUser := "bhdev"
 
-enablePlugins(JavaServerAppPackaging)
-
-enablePlugins(JDebPackaging)
-
-// enablePlugins(DebianPlugin)
+enablePlugins(JavaServerAppPackaging, JDebPackaging)
 
