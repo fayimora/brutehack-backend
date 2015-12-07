@@ -26,6 +26,7 @@ scalacOptions ++= Seq("-deprecation")
 
 val versions = new {
   val finatra = "2.1.1"
+  val guice = "4.0"
 }
 
 libraryDependencies ++= Seq(
@@ -40,16 +41,22 @@ libraryDependencies ++= Seq(
   "com.typesafe" % "config" % "1.3.0",
   "joda-time" % "joda-time" % "2.8.2",
   "com.github.finagle" %% "finagle-oauth2" % "0.1.5",
+
   "com.twitter.finatra" %% "finatra-http" % versions.finatra % "test",
+  "com.twitter.finatra" %% "finatra-jackson" % versions.finatra % "test",
   "com.twitter.inject" %% "inject-server" % versions.finatra % "test",
   "com.twitter.inject" %% "inject-app" % versions.finatra % "test",
   "com.twitter.inject" %% "inject-core" % versions.finatra % "test",
   "com.twitter.inject" %% "inject-modules" % versions.finatra % "test",
+  "com.google.inject.extensions" % "guice-testlib" % versions.guice % "test",
   "com.twitter.finatra" %% "finatra-http" % versions.finatra % "test" classifier "tests",
+  "com.twitter.finatra" %% "finatra-jackson" % versions.finatra % "test" classifier "tests",
   "com.twitter.inject" %% "inject-server" % versions.finatra % "test" classifier "tests",
   "com.twitter.inject" %% "inject-app" % versions.finatra % "test" classifier "tests",
   "com.twitter.inject" %% "inject-core" % versions.finatra % "test" classifier "tests",
   "com.twitter.inject" %% "inject-modules" % versions.finatra % "test" classifier "tests",
+  "com.google.inject.extensions" % "guice-testlib" % versions.guice % "test" classifier "tests",
+
   "org.mockito" % "mockito-core" % "1.9.5" % "test",
   "org.scalatest" %% "scalatest" % "2.2.3" % "test",
   "org.specs2" %% "specs2" % "2.3.12" % "test",
@@ -62,6 +69,12 @@ resolvers ++= Seq(
   "Twitter Maven" at "https://maven.twttr.com/",
   DefaultMavenRepository
 )
+
+assemblyMergeStrategy in assembly := {
+  case "BUILD" => MergeStrategy.discard
+  case PathList(ps @ _*) if ps.last endsWith ".class" => MergeStrategy.first
+  case other => MergeStrategy.defaultMergeStrategy(other)
+}
 
 initialCommands in (Test, console) := """ammonite.repl.Repl.run("")"""
 
