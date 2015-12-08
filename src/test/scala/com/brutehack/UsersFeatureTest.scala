@@ -5,7 +5,7 @@ import com.brutehack.domain.http.UserResponse
 import com.brutehack.services.{IdService, UsersService}
 import com.google.inject.testing.fieldbinder.Bind
 import com.twitter.finatra.http.test.{EmbeddedHttpServer, HttpTest}
-import com.twitter.finagle.http.Status.{Created, Ok}
+import com.twitter.finagle.http.Status.{BadRequest, Created, Ok}
 import com.twitter.inject.Mockito
 import com.twitter.inject.server.FeatureTest
 
@@ -52,5 +52,27 @@ class UsersFeatureTest extends FeatureTest with Mockito with HttpTest {
       path = result.location.get,
       andExpect = Ok,
       withJsonBody = result.contentString)
+  }
+
+  "Bad user request" in {
+    server.httpPost(path = "/users",
+      postBody =
+        """
+        {
+          "handle": "",
+          "email": "fayi@brutehack.com",
+          "password": "e"
+        }
+        """,
+      andExpect = BadRequest,
+      withJsonBody =
+        """
+        {
+          "errors": [
+            "handle: cannot be empty",
+            "password: size [1] is not between 8 and 50"
+          ]
+        }
+        """)
   }
 }
