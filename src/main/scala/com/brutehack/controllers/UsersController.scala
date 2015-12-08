@@ -19,7 +19,9 @@ class UsersController @Inject()(idService: IdService,
   }
 
   get("/users/:handle") { req: GetUserRequest =>
-    usersService.findById(req.handle)
+    usersService.findBy("handle")(req.handle).map{ u =>
+      UserResponse.fromDomain(u)
+    }
   }
 
   post("/users") { postUser: PostUserRequest =>
