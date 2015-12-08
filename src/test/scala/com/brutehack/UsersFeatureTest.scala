@@ -18,26 +18,27 @@ class UsersFeatureTest extends FeatureTest with Mockito with HttpTest {
   @Bind val idService = smartMock[IdService]
 
   "User creation" in {
+    val u = User("4d2d848c-27e8-4642-9061-8e5f7010edff","fayi","fayi@brutehack.com","this is the password",0,None,None,None,None)
+    idService.getId returns u.id
     usersService.save(any[User]) returns 1
-    idService.getId returns "4d2d848c-27e8-4642-9061-8e5f7010edff"
 
     server.httpPost(
       path = "/users",
       postBody =
         """
         {
-          "handle": "boss",
-          "email": "boss@brutehack.com",
-          "password": "this is thepassword"
+          "handle": "fayi",
+          "email": "fayi@brutehack.com",
+          "password": "this is the password"
         }
         """,
       andExpect = Created,
       withJsonBody =
-        """
+        s"""
         {
-          "id": "4d2d848c-27e8-4642-9061-8e5f7010edff",
-          "handle": "boss",
-          "email": "boss@brutehack.com",
+          "id": "${u.id}",
+          "handle": "fayi",
+          "email": "fayi@brutehack.com",
           "rating": 0
         }
         """)
