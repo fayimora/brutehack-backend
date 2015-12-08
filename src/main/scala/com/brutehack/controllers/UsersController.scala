@@ -4,14 +4,15 @@ import javax.inject.Inject
 
 import com.brutehack.Crypto
 import com.brutehack.domain.http._
-import com.brutehack.services.UsersService
+import com.brutehack.services.{IdService, UsersService}
 import com.twitter.finagle.http.Request
 import com.twitter.finatra.http.Controller
 
 /**
  * Created by fayimora on 16/10/2015.
  */
-class UsersController @Inject()(usersService: UsersService) extends Controller {
+class UsersController @Inject()(idService: IdService,
+                                usersService: UsersService) extends Controller {
   get("/users") { req: Request =>
     usersService.all()
   }
@@ -25,7 +26,8 @@ class UsersController @Inject()(usersService: UsersService) extends Controller {
     val (encryptedPassword, salt) = Crypto.encryptPassword(postUser.password)
     val encryptedUser = postUser.copy(password = encryptedPassword)
     debug(s"encryptedUser: $encryptedUser")
-    val userId = java.util.UUID.randomUUID().toString
+
+    val userId = idService.getId
     val user = encryptedUser.toDomain(userId)
     debug(s"user: $user")
 
