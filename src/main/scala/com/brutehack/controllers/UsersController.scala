@@ -12,7 +12,8 @@ import com.twitter.finatra.http.Controller
  * Created by fayimora on 16/10/2015.
  */
 class UsersController @Inject()(idService: IdService,
-                                usersService: UsersService) extends Controller {
+                                usersService: UsersService,
+                                crypto: Crypto) extends Controller {
   get("/users") { req: Request =>
     usersService.all()
   }
@@ -23,7 +24,7 @@ class UsersController @Inject()(idService: IdService,
 
   post("/users") { postUser: PostUserRequest =>
     debug(s"postUser: $postUser")
-    val (encryptedPassword, salt) = Crypto.encryptPassword(postUser.password)
+    val (encryptedPassword, salt) = crypto.encryptPassword(postUser.password)
     val encryptedUser = postUser.copy(password = encryptedPassword)
     debug(s"encryptedUser: $encryptedUser")
 
@@ -43,7 +44,7 @@ class UsersController @Inject()(idService: IdService,
     val userOpt = usersService.findBy("handle")(req.handle)
     userOpt match {
       case Some(u) =>
-        val encryptedPass = Crypto.encryptPassword(req.password)._1
+        val encryptedPass = crypto.encryptPassword(req.password)._1
         if(encryptedPass == u.password) response.ok else response.unauthorized("invalid username/password")
       case None => response.unauthorized
     }

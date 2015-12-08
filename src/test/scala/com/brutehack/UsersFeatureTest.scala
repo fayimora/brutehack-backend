@@ -16,11 +16,13 @@ class UsersFeatureTest extends FeatureTest with Mockito with HttpTest {
 
   @Bind val usersService = smartMock[UsersService]
   @Bind val idService = smartMock[IdService]
+  @Bind val crypt = smartMock[Crypto]
 
   "User creation" in {
-    val u = User("4d2d848c-27e8-4642-9061-8e5f7010edff","fayi","fayi@brutehack.com","this is the password",0,None,None,None,None)
+    val u = User("4d2d848c-27e8-4642-9061-8e5f7010edff","fayi","fayi@brutehack.com","encryptedpass",0,None,None,None,None)
     idService.getId returns u.id
-    usersService.save(any[User]) returns 1
+    usersService.save(u) returns 1
+    crypt.encryptPassword(u.password) returns (("encryptedpass", "salt"))
 
     server.httpPost(
       path = "/users",
@@ -29,7 +31,7 @@ class UsersFeatureTest extends FeatureTest with Mockito with HttpTest {
         {
           "handle": "fayi",
           "email": "fayi@brutehack.com",
-          "password": "this is the password"
+          "password": "encryptedpass"
         }
         """,
       andExpect = Created,

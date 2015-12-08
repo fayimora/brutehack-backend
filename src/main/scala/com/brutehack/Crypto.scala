@@ -6,7 +6,7 @@ import org.mindrot.jbcrypt.BCrypt
 /**
  * Created by fayimora on 18/10/2015.
  */
-object Crypto extends Logging {
+class Crypto extends Logging {
 
   def encryptPassword(password: String): (String, String) = {
     debug("Generating password Salt")
