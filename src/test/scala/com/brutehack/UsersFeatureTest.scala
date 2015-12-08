@@ -1,10 +1,11 @@
 package com.brutehack
 
 import com.brutehack.domain.User
+import com.brutehack.domain.http.UserResponse
 import com.brutehack.services.{IdService, UsersService}
 import com.google.inject.testing.fieldbinder.Bind
 import com.twitter.finatra.http.test.{EmbeddedHttpServer, HttpTest}
-import com.twitter.finagle.http.Status.Created
+import com.twitter.finagle.http.Status.{Created, Ok}
 import com.twitter.inject.Mockito
 import com.twitter.inject.server.FeatureTest
 
@@ -22,9 +23,11 @@ class UsersFeatureTest extends FeatureTest with Mockito with HttpTest {
     val u = User("4d2d848c-27e8-4642-9061-8e5f7010edff","fayi","fayi@brutehack.com","encryptedpass",0,None,None,None,None)
     idService.getId returns u.id
     usersService.save(u) returns 1
+    usersService.findBy("handle")("fayi") returns Some(u)
+
     crypt.encryptPassword(u.password) returns (("encryptedpass", "salt"))
 
-    server.httpPost(
+    val result = server.httpPost(
       path = "/users",
       postBody =
         """
@@ -44,5 +47,10 @@ class UsersFeatureTest extends FeatureTest with Mockito with HttpTest {
           "rating": 0
         }
         """)
+
+    server.httpGetJson[UserResponse](
+      path = result.location.get,
+      andExpect = Ok,
+      withJsonBody = result.contentString)
   }
 }
