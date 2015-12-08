@@ -14,11 +14,10 @@ import com.twitter.inject.server.FeatureTest
 class UsersFeatureTest extends FeatureTest with Mockito with HttpTest {
   override val server = new EmbeddedHttpServer(new ApplicationServer)
 
-  val user = User("2345","boss","boss@finatra.com","thepassword",123,None,None,None,None)
   @Bind val usersService = smartMock[UsersService]
 
   "User creation" in {
-    usersService.save(user) returns 1
+    usersService.save(any[User]) returns 1
 
     server.httpPost(
       path = "/users",
@@ -26,7 +25,7 @@ class UsersFeatureTest extends FeatureTest with Mockito with HttpTest {
         """
         {
           "handle": "boss",
-          "email": "boss@finatra.com",
+          "email": "boss@brutehack.com",
           "password": "this is thepassword"
         }
         """,
