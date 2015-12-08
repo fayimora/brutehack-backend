@@ -37,8 +37,8 @@ class UsersFeatureTest extends FeatureTest with Mockito with HttpTest {
         s"""
         {
           "id": "${u.id}",
-          "handle": "fayi",
-          "email": "fayi@brutehack.com",
+          "handle": "${u.handle}",
+          "email": "${u.email}",
           "rating": 0
         }
         """)
