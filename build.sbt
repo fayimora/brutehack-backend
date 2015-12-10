@@ -1,25 +1,16 @@
 name := "BruteHack"
-
-maintainer := "Fayimora <fayi@fayimora.com>"
-
-packageSummary := "BruteHack Backend Package"
-
-packageDescription := "The backend for Brutehack"
-
 organization := "com.brutehack"
-
 version := "0.0.1"
-
 scalaVersion := "2.11.7"
 
-// linuxPackageMappings in Debian := linuxPackageMappings.value
+maintainer := "Fayimora <fayi@fayimora.com>"
+packageSummary := "BruteHack Backend Package"
+packageDescription := "The backend for Brutehack"
 
 fork in run := true
-
 fork in Test := true
 
 javaOptions in run ++= Seq("-Dconfig.file=src/main/resources/conf/development.conf")
-
 javaOptions in (Test, test) ++= Seq("-Dconfig.file=src/main/resources/conf/development.conf")
 
 scalacOptions ++= Seq("-deprecation")
