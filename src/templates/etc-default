@@ -16,4 +16,4 @@
 
 # Referencing a custom config file
 -Dconfig.file=${{chdir}}/conf/application.conf
-{{retries}}=3
+${{retries}}=3
