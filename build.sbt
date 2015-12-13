@@ -78,8 +78,7 @@ flywayUrl := "jdbc:postgresql://localhost:5432/brutehack"
 flywayUser := "bhdev"
 
 mappings in Universal += {
-    // we are using the reference.conf as default application.conf
-    // the user can override settings here
+    // we are using the development.conf as default application.conf
     val conf = (resourceDirectory in Compile).value / "conf/development.conf"
     conf -> "conf/application.conf"
 }
