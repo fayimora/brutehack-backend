@@ -15,5 +15,4 @@
 # -------------------------------------------------
 
 # Referencing a custom config file
--Dconfig.file=${{chdir}}/conf/application.conf
-${{retries}}=3
+JAVA_OPTS="-Dconfig.file=${{chdir}}/conf/application.conf $JAVA_OPTS"
