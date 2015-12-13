@@ -83,4 +83,6 @@ mappings in Universal += {
     conf -> "conf/application.conf"
 }
 
+bashScriptExtraDefines += """addJava "-Dconfig.file=${app_home}/../conf/application.conf""""
+
 enablePlugins(JavaServerAppPackaging, JDebPackaging)
