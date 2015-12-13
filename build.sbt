@@ -77,5 +77,11 @@ flywayUrl := "jdbc:postgresql://localhost:5432/brutehack"
 
 flywayUser := "bhdev"
 
-enablePlugins(JavaServerAppPackaging, JDebPackaging)
+mappings in Universal += {
+    // we are using the reference.conf as default application.conf
+    // the user can override settings here
+    val conf = (resourceDirectory in Compile).value / "conf/development.conf"
+    conf -> "conf/application.conf"
+}
 
+enablePlugins(JavaServerAppPackaging, JDebPackaging)
