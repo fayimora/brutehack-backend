@@ -78,10 +78,22 @@ flywayUrl := "jdbc:postgresql://localhost:5432/brutehack"
 flywayUser := "bhdev"
 
 mappings in Universal += {
-    // we are using the development.conf as default application.conf
-    val conf = (resourceDirectory in Compile).value / "conf/development.conf"
-    conf -> "conf/application.conf"
+  // we are using the development.conf as default application.conf
+  val conf = (resourceDirectory in Compile).value / "conf/development.conf"
+  conf -> "conf/application.conf"
 }
+
+// we specify the name for our fat jar
+jarName in assembly := "brutehack.jar"
+
+// removes all jar mappings in universal and appends the fat jar
+mappings in Universal <<= (mappings in Universal, assembly in Compile) map { (mappings, fatJar) =>
+  val filtered = mappings filter { case (file, name) =>  ! name.endsWith(".jar") }
+  filtered :+ (fatJar -> ("lib/" + fatJar.getName))
+}
+
+// the bash scripts classpath only needs the fat jar
+scriptClasspath := Seq( (jarName in assembly).value )
 
 bashScriptExtraDefines += """addJava "-Dconfig.file=${app_home}/../conf/application.conf""""
 
