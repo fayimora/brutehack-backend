@@ -1,6 +1,6 @@
 package com.brutehack.services
 
-import javax.inject.Inject
+import javax.inject.{Inject, Singleton}
 
 import com.brutehack.domain.User
 import com.brutehack.domain.http.PatchUserRequest
@@ -11,6 +11,7 @@ import scalikejdbc._
 /**
  * Created by fayimora on 16/10/2015.
  */
+@Singleton
 class UsersService @Inject()(
   @TypesafeConfig("db.driver") dbDriver: String,
   @TypesafeConfig("db.url") dbUrl: String,
