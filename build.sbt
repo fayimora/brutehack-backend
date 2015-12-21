@@ -2,6 +2,7 @@ name := "BruteHack"
 organization := "com.brutehack"
 version := "0.0.1"
 scalaVersion := "2.11.7"
+parallelExecution in ThisBuild := false
 
 maintainer := "Fayimora <fayi@fayimora.com>"
 packageSummary := "BruteHack Backend Package"
@@ -20,6 +21,20 @@ val versions = new {
   val guice = "4.0"
 }
 
+resolvers ++= Seq(
+  Resolver.sonatypeRepo("releases"),
+  Resolver.sonatypeRepo("snapshots"),
+  "Twitter Maven" at "https://maven.twttr.com/",
+  DefaultMavenRepository
+)
+
+assemblyMergeStrategy in assembly := {
+  case "BUILD" => MergeStrategy.discard
+  case PathList("javax", "annotation", xs @ _*) => MergeStrategy.last
+  case PathList("com", "google", xs @ _*) => MergeStrategy.last
+  case other => MergeStrategy.defaultMergeStrategy(other)
+}
+
 libraryDependencies ++= Seq(
   "com.twitter.finatra" %% "finatra-http" % versions.finatra,
   "com.twitter.finatra" %% "finatra-slf4j" % versions.finatra,
@@ -28,7 +43,7 @@ libraryDependencies ++= Seq(
   "org.scalikejdbc" %% "scalikejdbc" % "2.2.8",
   "org.mindrot" % "jbcrypt" % "0.3m",
   "com.twitter" %% "bijection-util" % "0.8.1",
-  "com.github.racc" % "typesafeconfig-guice" % "0.0.1",
+  "com.github.racc" % "typesafeconfig-guice" % "0.0.2",
   "com.typesafe" % "config" % "1.3.0",
   "joda-time" % "joda-time" % "2.8.2",
   "com.github.finagle" %% "finagle-oauth2" % "0.1.5",
@@ -54,19 +69,6 @@ libraryDependencies ++= Seq(
   "com.lihaoyi" % "ammonite-repl" % "0.4.8" % "test" cross CrossVersion.full
 )
 
-resolvers ++= Seq(
-  Resolver.sonatypeRepo("releases"),
-  Resolver.sonatypeRepo("snapshots"),
-  "Twitter Maven" at "https://maven.twttr.com/",
-  DefaultMavenRepository
-)
-
-assemblyMergeStrategy in assembly := {
-  case "BUILD" => MergeStrategy.discard
-  case PathList(ps @ _*) if ps.last endsWith ".class" => MergeStrategy.first
-  case other => MergeStrategy.defaultMergeStrategy(other)
-}
-
 initialCommands in (Test, console) := """ammonite.repl.Repl.run("")"""
 
 Seq(Revolver.settings: _*)
@@ -84,7 +86,7 @@ mappings in Universal += {
 }
 
 // we specify the name for our fat jar
-jarName in assembly := "brutehack.jar"
+assemblyJarName in assembly := "brutehack.jar"
 
 // removes all jar mappings in universal and appends the fat jar
 mappings in Universal <<= (mappings in Universal, assembly in Compile) map { (mappings, fatJar) =>
