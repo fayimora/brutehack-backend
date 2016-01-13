@@ -8,5 +8,7 @@ addSbtPlugin("io.spray" % "sbt-revolver" % "0.7.2")
 
 addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.0.4")
 
+addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.8.1")
+
 resolvers += "Flyway" at "http://flywaydb.org/repo"
 
