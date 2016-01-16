@@ -31,19 +31,19 @@ resolvers ++= Seq(
 assemblyMergeStrategy in assembly := {
   case "BUILD" => MergeStrategy.discard
   case PathList("javax", "annotation", xs @ _*) => MergeStrategy.last
-  case PathList("com", "google", xs @ _*) => MergeStrategy.last
   case other => MergeStrategy.defaultMergeStrategy(other)
 }
 
 libraryDependencies ++= Seq(
-  "com.twitter.finatra" %% "finatra-http" % versions.finatra,
+  "com.twitter.finatra" %% "finatra-http" % versions.finatra,// exclude("com.google.inject", "guice"),
   "com.twitter.finatra" %% "finatra-slf4j" % versions.finatra,
   "ch.qos.logback" % "logback-classic" % "1.1.3",
   "org.postgresql" % "postgresql" % "9.4-1201-jdbc41",
-  "org.scalikejdbc" %% "scalikejdbc" % "2.2.8",
+  "org.scalikejdbc" %% "scalikejdbc" % "2.3.3",
   "org.mindrot" % "jbcrypt" % "0.3m",
   "com.twitter" %% "bijection-util" % "0.8.1",
-  "com.github.racc" % "typesafeconfig-guice" % "0.0.2",
+  // "com.github.racc" % "typesafeconfig-guice" % "0.0.2" exclude("com.google.inject", "guice"),
+  "org.reflections" % "reflections" % "0.9.10",
   "com.typesafe" % "config" % "1.3.0",
   "joda-time" % "joda-time" % "2.8.2",
   "com.github.finagle" %% "finagle-oauth2" % "0.1.5",
@@ -70,6 +70,8 @@ libraryDependencies ++= Seq(
 )
 
 initialCommands in (Test, console) := """ammonite.repl.Repl.run("")"""
+
+test in assembly := {}
 
 Seq(Revolver.settings: _*)
 
