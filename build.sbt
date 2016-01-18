@@ -39,7 +39,7 @@ libraryDependencies ++= Seq(
   "com.twitter.finatra" %% "finatra-slf4j" % versions.finatra,
   "ch.qos.logback" % "logback-classic" % "1.1.3",
   "org.postgresql" % "postgresql" % "9.4-1201-jdbc41",
-  "org.scalikejdbc" %% "scalikejdbc" % "2.3.3",
+  "org.scalikejdbc" %% "scalikejdbc" % "2.2.8",
   "org.mindrot" % "jbcrypt" % "0.3m",
   "com.twitter" %% "bijection-util" % "0.8.1",
   // "com.github.racc" % "typesafeconfig-guice" % "0.0.2" exclude("com.google.inject", "guice"),
